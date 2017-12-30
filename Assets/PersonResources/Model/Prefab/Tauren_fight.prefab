@@ -553,7 +553,6 @@ GameObject:
   m_Component:
   - component: {fileID: 437104}
   - component: {fileID: 9587300}
-  - component: {fileID: 11485666}
   m_Layer: 0
   m_Name: Tauren_fight
   m_TagString: Untagged
@@ -1423,7 +1422,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 192630}
-  m_LocalRotation: {x: -0.37241846, y: 0.6010861, z: 0.6010861, w: 0.37241846}
+  m_LocalRotation: {x: -0.3724185, y: 0.60108614, z: 0.60108614, w: 0.3724185}
   m_LocalPosition: {x: 0, y: 0.8297033, z: 0.22246383}
   m_LocalScale: {x: 1.0000004, y: 1.0000002, z: 1.0000004}
   m_Children:
@@ -1499,7 +1498,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 03cdc4ce739b15a4c903fc674cd0e92e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1556,22 +1555,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11485666
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 180104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25b3909719323724c821e3770fa9490a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointList:
-  - pointName: Tauren1
-    pointGO: {fileID: 198318}
-  - pointName: Tauren2
-    pointGO: {fileID: 113982}
 --- !u!137 &13792108
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

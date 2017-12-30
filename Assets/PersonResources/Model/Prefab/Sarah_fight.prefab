@@ -463,7 +463,6 @@ GameObject:
   m_Component:
   - component: {fileID: 419638}
   - component: {fileID: 9515976}
-  - component: {fileID: 11481218}
   m_Layer: 0
   m_Name: Sarah_fight
   m_TagString: Untagged
@@ -1730,7 +1729,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 03cdc4ce739b15a4c903fc674cd0e92e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1787,20 +1786,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11481218
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 153278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25b3909719323724c821e3770fa9490a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointList:
-  - pointName: Sarah1
-    pointGO: {fileID: 129642}
 --- !u!137 &13734628
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

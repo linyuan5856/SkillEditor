@@ -433,7 +433,6 @@ GameObject:
   m_Component:
   - component: {fileID: 426870}
   - component: {fileID: 9519444}
-  - component: {fileID: 11446406}
   m_Layer: 0
   m_Name: Cedric_fight
   m_TagString: Untagged
@@ -1411,7 +1410,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 03cdc4ce739b15a4c903fc674cd0e92e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1468,22 +1467,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11446406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 164422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25b3909719323724c821e3770fa9490a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointList:
-  - pointName: Cedric1
-    pointGO: {fileID: 178042}
-  - pointName: Cedric2
-    pointGO: {fileID: 139302}
 --- !u!137 &13719454
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
