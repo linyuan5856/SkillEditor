@@ -1,0 +1,10 @@
+id,attributes,duration,isdebuff,ishidden,ispurgable,passive,interval,icon,effect,attach,overrideanimation,action,state,property_movespeed,property_baseattack,property_armor
+int,string,string,int,int,int,int,string,string,string,string,string,string,string,string,string,string
+1001010,1,200,0,0,1,0,0,,,,,0,0,0,0,30
+1001020,3,200,1,0,0,0,0,,,,,0,10010200,0,0,0
+1002010,1,12000,1,0,1,0,1000,,,,,30-100203|38-100204|38-100205,0,12,0,0
+1002020,2,12000,0,0,0,0,0,,,,,0,0,12,0,0
+1003010,1,10000,0,1,0,1,0,,,,,32-100302,0,0,0,0
+2001010,1,3000,1,0,1,0,0,,,,,0,0,50,0,0
+3001010,1,10000,0,1,0,1,100,,,,,30-300102,0,0,0,0
+3001020,1,2000,1,0,1,0,0,,,,,0,0,50,0,0

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\linyuan\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\linyuan\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_SkillEditor.1395587697.00" t="ExcludeRecursive" />
+    <e p="D:\Github\personal\SkillEditor" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Script" t="Include">
+          <e p="BaseMain.cs" t="Include" />
+          <e p="Data" t="Include">
+            <e p="BaseRow.cs" t="Include" />
+            <e p="BaseTable.cs" t="Include" />
+            <e p="ConverUtil.cs" t="Include" />
+            <e p="Editor" t="Include">
+              <e p="GenerateConfig.cs" t="Include" />
+            </e>
+            <e p="Script" t="Include">
+              <e p="KVIntMap.cs" t="Include" />
+              <e p="Skill" t="Include">
+                <e p="SkillActionData.cs" t="Include" />
+                <e p="SkillActionDataTable.cs" t="Include" />
+                <e p="SkillBuffData.cs" t="Include" />
+                <e p="SkillBuffDataTable.cs" t="Include" />
+                <e p="SkillData.cs" t="Include" />
+                <e p="SkillDataTable.cs" t="Include" />
+                <e p="SkillStateData.cs" t="Include" />
+                <e p="SkillStateTable.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Debuger" t="Include">
+            <e p="Debuger.cs" t="Include" />
+          </e>
+          <e p="Demo" t="Include">
+            <e p="TestSkillActor.cs" t="Include" />
+            <e p="TestSkillLogic.cs" t="Include" />
+          </e>
+          <e p="IBehaviour.cs" t="Include" />
+          <e p="Service" t="Include">
+            <e p="BaseService.cs" t="Include" />
+            <e p="Core" t="Include">
+              <e p="LoaderService.cs" t="Include" />
+              <e p="TimerService.cs" t="Include" />
+            </e>
+            <e p="IService.cs" t="Include" />
+            <e p="ServiceLocate.cs" t="Include" />
+          </e>
+          <e p="Skill" t="Include">
+            <e p="Action" t="Include">
+              <e p="SkillActionAddBuff.cs" t="Include" />
+              <e p="SkillActionAnimation.cs" t="Include" />
+              <e p="SkillActionAudio.cs" t="Include" />
+              <e p="SkillActionBlink.cs" t="Include" />
+              <e p="SkillActionBounceAction.cs" t="Include" />
+              <e p="SkillActionDamage.cs" t="Include" />
+              <e p="SkillActionDelayAction.cs" t="Include" />
+              <e p="SkillActionDizzy.cs" t="Include" />
+              <e p="SkillActionEffect.cs" t="Include" />
+              <e p="SkillActionFollowProjectile.cs" t="Include" />
+              <e p="SkillActionHeal.cs" t="Include" />
+              <e p="SkillActionKnockback.cs" t="Include" />
+              <e p="SkillActionLineProjectile.cs" t="Include" />
+              <e p="SkillActionProbabilityAction.cs" t="Include" />
+              <e p="SkillActionRemoveBuff.cs" t="Include" />
+              <e p="SkillActionRunScript.cs" t="Include" />
+              <e p="SkillActionSummon.cs" t="Include" />
+            </e>
+            <e p="Buff" t="Include">
+              <e p="Buff.cs" t="Include" />
+              <e p="BuffManager.cs" t="Include" />
+              <e p="Interface" t="Include">
+                <e p="IBuff.cs" t="Include" />
+                <e p="IBuffManager.cs" t="Include" />
+              </e>
+              <e p="OverlayBuff.cs" t="Include" />
+            </e>
+            <e p="Core" t="Include">
+              <e p="BaseSkillContext.cs" t="Include" />
+              <e p="Interface" t="Include">
+                <e p="ISkill.cs" t="Include" />
+                <e p="ISkillAction.cs" t="Include" />
+                <e p="ISkillActor.cs" t="Include" />
+                <e p="ISkillContext.cs" t="Include" />
+                <e p="ISkillManager.cs" t="Include" />
+              </e>
+              <e p="Skill.cs" t="Include" />
+              <e p="SkillActionTrigger.cs" t="Include" />
+              <e p="SkillManager.cs" t="Include" />
+              <e p="SkillTargetSearch.cs" t="Include" />
+              <e p="SkillWorldContext.cs" t="Include" />
+            </e>
+            <e p="Misc" t="Include">
+              <e p="SkillDefine.cs" t="Include" />
+              <e p="SkillProjectile.cs" t="Include" />
+              <e p="SkillUtil.cs" t="Include" />
+            </e>
+            <e p="Param" t="Include">
+              <e p="BounceParam.cs" t="Include" />
+              <e p="CommonParam.cs" t="Include" />
+            </e>
+            <e p="SkillComponent.cs" t="Include" />
+          </e>
+          <e p="Util" t="Include">
+            <e p="EffectUtil.cs" t="Include" />
+            <e p="FileUtils.cs" t="Include" />
+            <e p="MapList.cs" t="Include" />
+            <e p="PathUtils.cs" t="Include" />
+            <e p="Singleton.cs" t="Include" />
+            <e p="TimeUtils.cs" t="Include" />
+            <e p="Unity" t="Include">
+              <e p="AppPrefs.cs" t="Include" />
+              <e p="MonoHelper.cs" t="Include" />
+              <e p="MonoSingleton.cs" t="Include" />
+              <e p="NetCheck.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="SkillEditor.sln" t="IncludeFlat" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
