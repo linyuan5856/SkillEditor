@@ -1,8 +1,13 @@
-﻿using System;
-
-[Serializable]
-public abstract class BaseRow
+﻿public interface IBaseRow
 {
-    public abstract int GetId();
+    int GetId();
+}
 
+
+public class BaseRow : IBaseRow
+{
+    public virtual int GetId()
+    {
+        return 0;
+    }
 }

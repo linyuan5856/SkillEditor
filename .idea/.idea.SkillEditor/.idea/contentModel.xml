@@ -15,15 +15,17 @@
             <e p="ConverUtil.cs" t="Include" />
             <e p="Editor" t="Include">
               <e p="GenerateConfig.cs" t="Include" />
+              <e p="GenerateDefine.cs" t="Include" />
+              <e p="GenerateScript.cs" t="Include" />
             </e>
+            <e p="KVIntMap.cs" t="Include" />
             <e p="Script" t="Include">
-              <e p="KVIntMap.cs" t="Include" />
-              <e p="Skill" t="Include">
-                <e p="SkillActionData.cs" t="Include" />
-                <e p="SkillActionDataTable.cs" t="Include" />
-                <e p="SkillBuffData.cs" t="Include" />
+              <e p="SkillActionData.cs" t="Include" />
+              <e p="SkillActionDataTable.cs" t="Include" />
+              <e p="SkillBuffData.cs" t="Include" />
+              <e p="SkillData.cs" t="Include" />
+              <e p="Table" t="Include">
                 <e p="SkillBuffDataTable.cs" t="Include" />
-                <e p="SkillData.cs" t="Include" />
                 <e p="SkillDataTable.cs" t="Include" />
                 <e p="SkillStateData.cs" t="Include" />
                 <e p="SkillStateTable.cs" t="Include" />

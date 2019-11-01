@@ -10,19 +10,19 @@ using UnityEditor;
 
 public class LoaderService : BaseService
 {
-    Dictionary<string, BaseTable> tableDic = new Dictionary<string, BaseTable>();
+    Dictionary<string, IBaseTable> tableDic = new Dictionary<string, IBaseTable>();
 
-    public BaseTable GetTable(string name)
+    public IBaseTable GetTable(string name)
     {
         if (tableDic.ContainsKey(name))
             return tableDic[name];
 
-        BaseTable table = null;
+        IBaseTable table = null;
 #if UNITY_EDITOR
         const string path = "Assets/Resources/Config/";
-        var asset = AssetDatabase.LoadAssetAtPath<BaseTable>(path + name + ".asset");
+        var asset = AssetDatabase.LoadAssetAtPath(path + name + ".asset", typeof(IBaseTable));
         //使用实例化的Copy  防止Editor模式下 更改配置
-        table = Object.Instantiate(asset);
+        table = Object.Instantiate(asset) as IBaseTable;
 #else
         table = Resources.Load("Config/"+name)as BaseTable;
 #endif
@@ -33,7 +33,7 @@ public class LoaderService : BaseService
         return table;
     }
 
-    public BaseRow GetRowFromTable(string tableName, int id)
+    public IBaseRow GetRowFromTable(string tableName, int id)
     {
         var table = GetTable(tableName);
         if (table != null)
@@ -60,10 +60,10 @@ public class LoaderService : BaseService
 
     public GameObject InstantiateInEditor(string path)
     {
-        var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path  + ".prefab");
+        var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path + ".prefab");
         return UnityEngine.Object.Instantiate(asset);
     }
-    
+
     public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
     {
         SceneManager.LoadScene(sceneName, mode);

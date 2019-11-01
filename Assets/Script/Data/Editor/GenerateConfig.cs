@@ -1,43 +1,11 @@
 ﻿#if UNITY_EDITOR
-using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class GenerateConfig : MonoBehaviour
+public class GenerateConfig
 {
-    private static readonly string PROJECT_NAME = "Client2019.2";
-    private static readonly string CSV_PATH = "Share/Config/csv/client/";
-    private static readonly string OutPutPath = "Assets/Resources/Config/";
-
-    private static readonly Dictionary<string, string> configDic = new Dictionary<string, string>
-    {
-        //csv Name    ScriptObject Name
-        {"Skill", "SkillDataTable"},
-        {"SkillAction", "SkillActionDataTable"},
-        {"SkillBuff", "SkillBuffDataTable"},
-        {"SkillState", "SkillStateTable"},
-        {"sundry", "SundryDataTable"},
-        {"npc", "NpcDataTable"},
-        {"model", "ModelDataTable"},
-    };
-
-    private static string mCsvPath;
-
-    static string GetCsvPath()
-    {
-        if (string.IsNullOrEmpty(mCsvPath))
-        {
-            var endIndex = Application.dataPath.IndexOf(PROJECT_NAME, StringComparison.Ordinal);
-            var headPath = Application.dataPath.Substring(0, endIndex);
-            mCsvPath = headPath + CSV_PATH;
-        }
-
-        return mCsvPath;
-    }
-
-    [MenuItem("BluePlanetPROTools/Config/GenerateConfig")]
+    [MenuItem("Tools/Config/GenerateConfig", false, 102)]
     static void GenerateProjectConfig()
     {
         if (EditorApplication.isCompiling)
@@ -47,10 +15,9 @@ public class GenerateConfig : MonoBehaviour
             return;
         }
 
-        foreach (var kv in configDic)
+        foreach (var csvName in GenerateDefine.csvList)
         {
-            var csvName = kv.Key;
-            var path = GetCsvPath() + csvName + ".csv";
+            var path = GenerateDefine.GetCsvPath() + csvName + ".csv";
 
             if (!File.Exists(path))
             {
@@ -58,23 +25,24 @@ public class GenerateConfig : MonoBehaviour
                 return;
             }
 
-            CreateScriptObject(csvName, kv.Value, File.ReadAllLines(path));
+            CreateScriptObject(csvName, GenerateDefine.GetTableScriptNameByCsv(csvName), File.ReadAllLines(path));
         }
     }
 
-    static void CreateScriptObject(string csvName, string scriptName, string[] rows, bool isAll = true)
+    static void CreateScriptObject(string csvName, string scriptObjectName, string[] rows, bool isAll = true)
     {
-        if (!Directory.Exists(OutPutPath))
-            Directory.CreateDirectory(OutPutPath);
+        var outPutPath = GenerateDefine.ScriptObjectOutPutPath;
+        if (!Directory.Exists(outPutPath))
+            Directory.CreateDirectory(outPutPath);
 
-        string path = OutPutPath + scriptName + ".asset";
+        string path = outPutPath + scriptObjectName + ".asset";
         if (File.Exists(path))
         {
             AssetDatabase.DeleteAsset(path);
             Debug.Log("has delete old asset  ->" + csvName);
         }
 
-        var asset = ScriptableObject.CreateInstance(scriptName);
+        var asset = ScriptableObject.CreateInstance(scriptObjectName);
         var success = DeSerializeAsset(rows, ref asset);
 
         AssetDatabase.CreateAsset(asset, path);
@@ -83,12 +51,12 @@ public class GenerateConfig : MonoBehaviour
             Selection.activeObject = asset;
         var des = success ? "Done " : "Failed ";
         Debug.Log(string.Format("GenerateConfig {0}  [ScriptName->{1}]", csvName + " " + des,
-            scriptName));
+            scriptObjectName));
     }
 
     static bool DeSerializeAsset(string[] rows, ref ScriptableObject obj)
     {
-        BaseTable table = (BaseTable) obj;
+        IBaseTable table = (IBaseTable) obj;
         if (table == null)
         {
             Debug.LogError("it's not a BaseTable Type");

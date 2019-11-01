@@ -1,0 +1,14 @@
+﻿0:Install python 2.7
+0.1: cd phthon27\Scripts
+0.2: easy_install pip
+0.3: pip install xlrd
+
+1:ExcelToLua中RunExcelToLua.bat是主运行程序
+2:RunMapToLua.bat是包含地图配置的运行程序(运行时间较长)
+3:xls_lua_config这是Excel转Lua的配置文件(重点：需要生产的文件才写配置，默认为一般转换方式，特殊转换方式请看配置注释)
+4:ExcelToLua这是主逻辑程序
+5:excel存放策划的配置表
+6:lua_config存放的最终生成的lua配置文件
+
+日常配置更新：RunExcelToLua.bat
+地图+日常配置更新：RunMapToLua.bat

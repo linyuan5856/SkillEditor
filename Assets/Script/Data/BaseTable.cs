@@ -4,18 +4,21 @@ using UnityEngine;
 using System.Collections.Generic;
 using BluePro;
 
+
+public interface IBaseTable
+{
+    void DeSerialize(string[] names, string[] types, string[] lines);
+
+    IBaseRow GetRow(int id);
+}
+
 [Serializable]
-public class BaseTable : ScriptableObject //, ITable
+public class BaseTable<T> : ScriptableObject, IBaseTable where T : class, IBaseRow
 {
     private int initId = -1;
-    protected List<BaseRow> m_BaseRowList;
-
-    public virtual List<BaseRow> GetList()
-    {
-        return null;
-    }
-
-    public virtual BaseRow GetRow(int id)
+    [SerializeField] public List<T> Datas;
+    
+    public virtual IBaseRow GetRow(int id)
     {
         if (id < 0)
         {
@@ -23,70 +26,54 @@ public class BaseTable : ScriptableObject //, ITable
             return null;
         }
 
-        var datas = GetList();
-
-        if (datas == null)
+        if (Datas == null)
         {
             Debuger.LogError("表尚未初始化");
             return null;
         }
 
         if (initId == -1)
-            initId = datas[0].GetId();
+            initId = Datas[0].GetId();
 
         int index = id - initId;
         if (initId >= 0
             &&
-            index < datas.Count
+            index < Datas.Count
             &&
-            datas[index].GetId() == id)
+            Datas[index].GetId() == id)
         {
-            return datas[index];
+            return Datas[index];
         }
         else
         {
             //乱序的 todo 待优化
-            for (int i = 0; i < datas.Count; i++)
+            for (int i = 0; i < Datas.Count; i++)
             {
-                if (datas[i].GetId() == id)
-                    return datas[i];
+                if (Datas[i].GetId() == id)
+                    return Datas[i];
             }
         }
 
 
         Debuger.LogError(string.Format("Can't find id {0}  InitId->{1}  Total Count->{2}",
-            id, initId, datas.Count));
-        return null;
-    }
-
-    protected virtual void AfterDeserialize()
-    {
-    }
-
-    protected virtual BaseRow CreateRow()
-    {
+            id, initId, Datas.Count));
         return null;
     }
 
 
-    protected List<BaseRow> datas;
-
-
-    public virtual void DeSerialize(string[] names, string[] types, string[] lines)
+    public void DeSerialize(string[] names, string[] types, string[] lines)
     {
-        datas = new List<BaseRow>();
+        Datas = new List<T>();
         for (int i = 0; i < lines.Length; i++)
         {
-            var config = CreateRow();
+            var config = Activator.CreateInstance<T>();
             string[] values = lines[i].Split(',');
             DeserializePerRow(config, names, types, values);
-            datas.Add(config);
+            Datas.Add(config);
         }
-
-        AfterDeserialize();
     }
 
-    void DeserializePerRow(BaseRow config, string[] names, string[] types, string[] values)
+    void DeserializePerRow(IBaseRow config, string[] names, string[] types, string[] values)
     {
         for (int i = 0; i < names.Length; i++)
         {

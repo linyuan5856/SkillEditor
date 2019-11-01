@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ConvertUtil
 {
-    private const string NONE = "|";
+    private const string NONE = "0";
 
     public static List<int> ConvertToIntList(string value, char splite = '|')
     {
@@ -39,7 +39,7 @@ public class ConvertUtil
     }
 
 
-    public static string[] ConvertToArrary(string value, char splite)
+    public static string[] ConvertToArray(string value, char splite)
     {
         string[] arr = value.Split(splite);
         return arr;
@@ -48,6 +48,10 @@ public class ConvertUtil
     public static KVIntMap ConvertToMap(string value, char splite = '-')
     {
         if (string.IsNullOrEmpty(value) || value.Equals(NONE)) return default;
+
+#if UNITY_EDITOR
+        splite = value.Contains("-") ? '-' : '|';
+#endif
 
         string[] arr = value.Split(splite);
         var value0 = int.Parse(arr[0]);
@@ -69,6 +73,30 @@ public class ConvertUtil
         }
 
         return list;
+    }
+
+    public static Vector3 ConvertToVector3(string value, char splite = '|')
+    {
+        if (string.IsNullOrEmpty(value) || value.Equals(NONE)) return default;
+
+#if UNITY_EDITOR
+        splite = value.Contains("-") ? '-' : '|';
+#endif
+        
+        string[] arr = value.Split(splite);
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+
+        if (arr.Length > 0)
+            x = float.Parse(arr[0]);
+        if (arr.Length > 1)
+            y = float.Parse(arr[1]);
+        if (arr.Length > 2)
+            z = float.Parse(arr[2]);
+
+        Vector3 config = new Vector3(x, y, z);
+        return config;
     }
 
     public static bool SetFieldValue(FieldInfo fieldInfo, System.Object target, string value)
@@ -125,6 +153,10 @@ public class ConvertUtil
             else if (fieldInfo.FieldType == typeof(List<KVIntMap>))
             {
                 fieldInfo.SetValue(target, ConvertToMapList(value));
+            }
+            else if (fieldInfo.FieldType == typeof(Vector3))
+            {
+                fieldInfo.SetValue(target, ConvertToVector3(value));
             }
             else
             {
