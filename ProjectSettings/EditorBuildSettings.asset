@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SkillEditor.unity
+    guid: e88dc19bbf980a04bbafe61d9dcef230
+  m_configObjects: {}

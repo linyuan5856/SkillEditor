@@ -39,14 +39,14 @@ public class SkillProjectile : MonoBehaviour
     void Awake()
     {
         //todo will delete in the future
-//        var script = this.GetComponent<ETFXProjectileScript>();
-//        if (script)
-//        {
-//            script.enabled = false;
-//            this.impactParticle = script.impactParticle;
-//            this.projectileParticle = script.projectileParticle;
-//            this.muzzleParticle = script.muzzleParticle;
-//        }
+        var script = this.GetComponent<ETFXProjectileScript>();
+        if (script)
+        {
+            script.enabled = false;
+            this.impactParticle = script.impactParticle;
+            this.projectileParticle = script.projectileParticle;
+            this.muzzleParticle = script.muzzleParticle;
+        }
 
         mRigidBody = GetComponent<Rigidbody>();
         mRigidBody.useGravity = false;
@@ -113,7 +113,7 @@ public class SkillProjectile : MonoBehaviour
         mRigidBody.AddForce(this.transform.forward * this.mSpeed);
     }
 
-    RaycastHit[] hits = new RaycastHit[6];
+    RaycastHit[] hits = new RaycastHit[3];
     private RaycastHit hit;
 
     void FixedUpdate()

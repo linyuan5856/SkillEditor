@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -149,7 +149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77969724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.05, y: 1, z: 0}
+  m_LocalPosition: {x: 3.1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1549748409}
@@ -173,7 +173,7 @@ MonoBehaviour:
   attack: 100
   armor: 10
   isDead: 0
-  targetType: 3
+  targetType: 2
   targetTeamType: 1
 --- !u!136 &77969727
 CapsuleCollider:
@@ -558,7 +558,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176392310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: -4.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1549748409}
@@ -582,7 +582,7 @@ MonoBehaviour:
   attack: 100
   armor: 10
   isDead: 0
-  targetType: 3
+  targetType: 2
   targetTeamType: 1
 --- !u!136 &1176392313
 CapsuleCollider:
@@ -673,7 +673,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287748413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 2.33}
+  m_LocalPosition: {x: 0, y: 1, z: 3.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1549748409}
@@ -697,7 +697,7 @@ MonoBehaviour:
   attack: 100
   armor: 10
   isDead: 0
-  targetType: 3
+  targetType: 2
   targetTeamType: 1
 --- !u!136 &1287748416
 CapsuleCollider:
@@ -822,7 +822,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924948208}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.68, y: 1, z: 0}
+  m_LocalPosition: {x: -1.91, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1549748409}
@@ -846,7 +846,7 @@ MonoBehaviour:
   attack: 100
   armor: 10
   isDead: 0
-  targetType: 3
+  targetType: 2
   targetTeamType: 1
 --- !u!136 &1924948211
 CapsuleCollider:
