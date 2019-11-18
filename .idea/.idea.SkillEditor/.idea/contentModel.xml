@@ -21,14 +21,14 @@
             <e p="KVIntMap.cs" t="Include" />
             <e p="Script" t="Include">
               <e p="SkillActionData.cs" t="Include" />
-              <e p="SkillActionDataTable.cs" t="Include" />
               <e p="SkillBuffData.cs" t="Include" />
               <e p="SkillData.cs" t="Include" />
+              <e p="SkillStateData.cs" t="Include" />
               <e p="Table" t="Include">
+                <e p="SkillActionDataTable.cs" t="Include" />
                 <e p="SkillBuffDataTable.cs" t="Include" />
                 <e p="SkillDataTable.cs" t="Include" />
-                <e p="SkillStateData.cs" t="Include" />
-                <e p="SkillStateTable.cs" t="Include" />
+                <e p="SkillStateDataTable.cs" t="Include" />
               </e>
             </e>
           </e>

@@ -1,0 +1,440 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ad5ff2ef323894fa870582d812a23b, type: 3}
+  m_Name: SkillActionDataTable
+  m_EditorClassIdentifier: 
+  Datas:
+  - id: 100101
+    center: 1
+    radius:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 1
+    para1: 1001010
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100102
+    center: 1
+    radius:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 1
+    actionType: 1
+    para1: 1001020
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100201
+    center: 2
+    radius:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 1
+    para1: 1002010
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100202
+    center: 1
+    radius:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 1
+    para1: 1002020
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100203
+    center: 2
+    radius:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 3
+    para1: 30
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100204
+    center: 2
+    radius:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 2
+    para1: 1002010
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100205
+    center: 1
+    radius:
+      mKey: 1
+      mValue: 150
+    offsetpara: 20-20-30
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 2
+    para1: 1002020
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100206
+    center: 2
+    radius:
+      mKey: 1
+      mValue: 50
+    offsetpara: 20-20-30
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 201
+    para1: "\u7279\u6548ID"
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100207
+    center: 2
+    radius:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 202
+    para1: "\u97F3\u6548ID"
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100301
+    center: 1
+    radius:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 1
+    para1: 1003010
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100302
+    center: 1
+    radius:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 101
+    para1: 20
+    para2: 100303|100304|100305
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100303
+    center: 1
+    radius:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 1
+    actionType: 3
+    para1: 200|300|400|500
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100304
+    center: 1
+    radius:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 201
+    para1: "\u7279\u6548ID"
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 100305
+    center: 1
+    radius:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 203
+    para1: "\u52A8\u4F5CID"
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 200101
+    center: 2
+    radius:
+      mKey: 1
+      mValue: 150
+    offsetpara: 20-20-30
+    team: 1
+    type: 0200000004000000
+    flags: 1
+    actionType: 103
+    para1: 10
+    para2: 0
+    para3: 200102
+    para4: 900
+    para5: 1
+    para6: 
+    para7: 
+  - id: 200102
+    center: 2
+    radius:
+      mKey: 1
+      mValue: 50
+    offsetpara: 20-20-30
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 7
+    para1: "\u7279\u6548\u540D\u79F0"
+    para2: 800
+    para3: body1
+    para4: 0
+    para5: 
+    para6: 
+    para7: 
+  - id: 200103
+    center: 2
+    radius:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 1
+    para1: 2001010
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 200104
+    center: 2
+    radius:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 3
+    para1: 200|300|400
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 200105
+    center: 2
+    radius:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 1
+    actionType: 201
+    para1: "\u7279\u6548ID"
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 300101
+    center: 1
+    radius:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    team: 2
+    type: 02000000
+    flags: 0
+    actionType: 1
+    para1: 3001010
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 300102
+    center: 1
+    radius:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 1
+    para1: 3001020
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 400101
+    center: 2
+    radius:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 7
+    para1: "\u7279\u6548\u540D\u79F0"
+    para2: 800
+    para3: body1
+    para4: 0
+    para5: 
+    para6: 
+    para7: 
+  - id: 400102
+    center: 5
+    radius:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 3
+    para1: 300
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 400103
+    center: 5
+    radius:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 5
+    para1: 3
+    para2: 
+    para3: 
+    para4: 
+    para5: 
+    para6: 
+    para7: 
+  - id: 500101
+    center: 3
+    radius:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    team: 1
+    type: 0200000004000000
+    flags: 0
+    actionType: 6
+    para1: "\u7279\u6548\u540D\u79F0"
+    para2: 800
+    para3: body1
+    para4: 1
+    para5: 50
+    para6: 50
+    para7: 3000

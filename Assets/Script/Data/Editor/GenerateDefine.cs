@@ -5,8 +5,8 @@ using UnityEngine;
 
 public static class GenerateDefine
 {
-    private static readonly string PROJECT_NAME = "Client2019.2";
-    private static readonly string CSV_PATH = "Share/Config/csv/client/";
+    private static readonly string PROJECT_NAME = "SkillEditor";
+    private static readonly string CSV_PATH = PROJECT_NAME + "/Config/csv/client/";
     private static string mCsvPath;
 
 
@@ -21,12 +21,7 @@ public static class GenerateDefine
         "Skill",
         "SkillAction",
         "SkillBuff",
-        "sundry",
-        "npc",
-        "model",
-        "matchmode",
-        "effect",
-        "motion",
+        "SkillState"
     };
 
 
@@ -85,7 +80,7 @@ public static class GenerateDefine
 
     public static string GetDataScriptNameByCsv(string csvName)
     {
-        return "_" + ToFirstLetterUpper(csvName) + "Data";
+        return ToFirstLetterUpper(csvName) + "Data";
     }
 
     public static string GetTableScriptNameByCsv(string csvName)

@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60d72ca96034d94eac7e296b30e1fd3, type: 3}
+  m_Name: SkillBuffDataTable
+  m_EditorClassIdentifier: 
+  Datas:
+  - id: 1001010
+    attributes: 01000000
+    duration:
+    - 200
+    isDeBuff: 0
+    isHidden: 0
+    isPurgable: 1
+    passive: 0
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action: []
+    state: 0
+    property_MoveSpeed: 0
+    property_BaseAttack: 0
+    property_armor: 30
+  - id: 1001020
+    attributes: 03000000
+    duration:
+    - 200
+    isDeBuff: 1
+    isHidden: 0
+    isPurgable: 0
+    passive: 0
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action: []
+    state: 10010200
+    property_MoveSpeed: 0
+    property_BaseAttack: 0
+    property_armor: 0
+  - id: 1002010
+    attributes: 01000000
+    duration:
+    - 12000
+    isDeBuff: 1
+    isHidden: 0
+    isPurgable: 1
+    passive: 0
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action:
+    - mKey: 30
+      mValue: 100203
+    - mKey: 38
+      mValue: 100204
+    - mKey: 38
+      mValue: 100205
+    state: 0
+    property_MoveSpeed: 12
+    property_BaseAttack: 0
+    property_armor: 0
+  - id: 1002020
+    attributes: 02000000
+    duration:
+    - 12000
+    isDeBuff: 0
+    isHidden: 0
+    isPurgable: 0
+    passive: 0
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action: []
+    state: 0
+    property_MoveSpeed: 12
+    property_BaseAttack: 0
+    property_armor: 0
+  - id: 1003010
+    attributes: 01000000
+    duration:
+    - 10000
+    isDeBuff: 0
+    isHidden: 1
+    isPurgable: 0
+    passive: 1
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action:
+    - mKey: 32
+      mValue: 100302
+    state: 0
+    property_MoveSpeed: 0
+    property_BaseAttack: 0
+    property_armor: 0
+  - id: 2001010
+    attributes: 01000000
+    duration:
+    - 3000
+    isDeBuff: 1
+    isHidden: 0
+    isPurgable: 1
+    passive: 0
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action: []
+    state: 0
+    property_MoveSpeed: 50
+    property_BaseAttack: 0
+    property_armor: 0
+  - id: 3001010
+    attributes: 01000000
+    duration:
+    - 10000
+    isDeBuff: 0
+    isHidden: 1
+    isPurgable: 0
+    passive: 1
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action:
+    - mKey: 30
+      mValue: 300102
+    state: 0
+    property_MoveSpeed: 0
+    property_BaseAttack: 0
+    property_armor: 0
+  - id: 3001020
+    attributes: 01000000
+    duration:
+    - 2000
+    isDeBuff: 1
+    isHidden: 0
+    isPurgable: 1
+    passive: 0
+    thinkInterval: 0
+    icon: 
+    effect: 
+    attach: 
+    overrideAnimation: 
+    action: []
+    state: 0
+    property_MoveSpeed: 50
+    property_BaseAttack: 0
+    property_armor: 0

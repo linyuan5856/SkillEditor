@@ -1,0 +1,239 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 003e7d2aa141f6849a758a5458d1c1bf, type: 3}
+  m_Name: SkillDataTable
+  m_EditorClassIdentifier: 
+  Datas:
+  - id: 1001
+    name: "\u72C2\u6218\u58EB\u4E4B\u543C"
+    icon: 
+    description: "\u65A7\u738B\u5632\u8BBD\u9644\u8FD1\u7684\u654C\u65B9\u5355\u4F4D\uFF0C\u5F3A\u8FEB\u4ED6\u4EEC\u653B\u51FB\u81EA\u5DF1\uFF0C\u540C\u65F6\u83B7\u5F97\u989D\u5916\u62A4\u7532"
+    type: 1
+    behavior: 03000000
+    castRange: 0
+    AOERange:
+      mKey: 1
+      mValue: 300
+    offsetpara: 10-10-0
+    damageType: 0
+    skillCost: 32000000
+    coolDown:
+    - 10000
+    castAnimation: skill1
+    castPoint:
+    - 400
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 1
+    action:
+    - mKey: 1
+      mValue: 100101
+    - mKey: 1
+      mValue: 100102
+  - id: 1002
+    name: "\u6218\u4E89\u9965\u6E34"
+    icon: 
+    description: "\u6FC0\u6012\u4E00\u4E2A\u654C\u65B9\u5355\u4F4D\uFF0C\u4F7F\u4ED6\u53D7\u5230\u51CF\u901F\u548C\u6301\u7EED\u4F24\u5BB3\uFF0C\u76F4\u5230\u4ED6\u6740\u6B7B\u4E00\u4E2A\u5355\u4F4D\u6216\u8005\u6301\u7EED\u65F6\u95F4\u7ED3\u675F\u4E3A\u6B62\u3002\u65A7\u738B\u4ECE\u6BCF\u4E2A\u53D7\u6218\u6597\u9965\u6E34\u5F71\u54CD\u7684\u654C\u4EBA\u8EAB\u4E0A\u83B7\u5F97\u79FB\u52A8\u901F\u5EA6\u52A0\u6210\uFF0C\u975E\u82F1\u96C4\u5355\u4F4D\u63D0\u4F9B\u534A\u989D\u6548\u679C"
+    type: 1
+    behavior: 04000000
+    castRange: 0
+    AOERange:
+      mKey: 2
+      mValue: 100
+    offsetpara: 10-10-0
+    damageType: 0
+    skillCost: 3c000000
+    coolDown:
+    - 9000
+    castAnimation: skill2
+    castPoint:
+    - 300
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 0
+    action:
+    - mKey: 1
+      mValue: 100201
+    - mKey: 1
+      mValue: 100202
+    - mKey: 1
+      mValue: 100206
+    - mKey: 1
+      mValue: 100207
+  - id: 1003
+    name: "\u53CD\u51FB\u87BA\u65CB"
+    icon: 
+    description: "\u53D7\u653B\u51FB\u65F6\uFF0C\u65A7\u738B\u505A\u51FA\u87BA\u65CB\u53CD\u51FB\uFF0C\u5BF9\u9644\u8FD1\u6240\u6709\u654C\u65B9\u5355\u4F4D\u9020\u6210\u7EAF\u7CB9\u4F24\u5BB3"
+    type: 1
+    behavior: 06000000
+    castRange: 0
+    AOERange:
+      mKey: 3
+      mValue: 90
+    offsetpara: 10-10-0
+    damageType: 0
+    skillCost: 46000000
+    coolDown:
+    - 8000
+    castAnimation: skill3
+    castPoint: []
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 1
+    action:
+    - mKey: 10
+      mValue: 100301
+  - id: 2001
+    name: "\u971C\u51BB\u8FDE\u73AF"
+    icon: 
+    description: "\u91CA\u653E\u4E00\u4E2A\u5728\u654C\u4EBA\u95F4\u5F39\u8DF3\u81F3\u591A10
+      10 10\u6B21\u7684\u971C\u51BB\u4E4B\u7403\uFF0C\u6BCF\u6B21\u51FB\u4E2D\u654C\u4EBA\u540E\u90FD\u4F1A\u9020\u6210\u4F24\u5BB3\u548C\u51CF\u901F\u6548\u679C\u3002\u53EF\u7528\u795E\u6756\u5347\u7EA7"
+    type: 2
+    behavior: 04000000
+    castRange: 0
+    AOERange:
+      mKey: 4
+      mValue: 40
+    offsetpara: 20-20-0
+    damageType: 0
+    skillCost: 50000000
+    coolDown:
+    - 7000
+    castAnimation: skill4
+    castPoint:
+    - 300
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 1
+    action:
+    - mKey: 1
+      mValue: 200101
+    - mKey: 4
+      mValue: 200103
+    - mKey: 4
+      mValue: 200104
+    - mKey: 4
+      mValue: 200105
+  - id: 3001
+    name: "\u9000\u5316\u5149\u73AF"
+    icon: 
+    description: "\u6781\u5927\u7A0B\u5EA6\u7684\u51CF\u7F13\u9644\u8FD1\u654C\u4EBA\u7684\u79FB\u52A8\u901F\u5EA6\u548C\u653B\u51FB\u901F\u5EA6"
+    type: 1
+    behavior: 06000000
+    castRange: 0
+    AOERange:
+      mKey: 5
+      mValue: 25
+    offsetpara: 20-20-0
+    damageType: 0
+    skillCost: 5a000000
+    coolDown: []
+    castAnimation: 0
+    castPoint: []
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 0
+    action:
+    - mKey: 10
+      mValue: 300101
+  - id: 4001
+    name: "\u98CE\u66B4\u4E4B\u9524"
+    icon: 
+    description: "\u5411\u76EE\u6807\u65BD\u653E\u4E00\u4E2A\u8FFD\u8E2A\u6027\u7684\u9524\u5B50\uFF0C\u5BF9\u547D\u4E2D\u8303\u56F4300\u5185\u7684\u654C\u65B9\u5355\u4F4D\u9020\u6210\u4F24\u5BB3\u548C\u7729\u6655"
+    type: 1
+    behavior: 04000000
+    castRange: 0
+    AOERange:
+      mKey: 1
+      mValue: 150
+    offsetpara: 20-20-30
+    damageType: 0
+    skillCost: 64000000
+    coolDown:
+    - 3000
+    castAnimation: skill1
+    castPoint:
+    - 300
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 0
+    action:
+    - mKey: 1
+      mValue: 400101
+    - mKey: 4
+      mValue: 400102
+    - mKey: 4
+      mValue: 400103
+  - id: 5001
+    name: "\u6708\u795E\u4E4B\u7BAD"
+    icon: 
+    description: "\u5411\u4E00\u4E2A\u65B9\u5411\u5C04\u51FA\u4E00\u679A\u7BAD\uFF0C\u547D\u4E2D\u7684\u7B2C\u4E00\u4E2A\u654C\u4EBA\u9020\u6210\u7729\u6655\u548C\u4F24\u5BB3"
+    type: 1
+    behavior: 02000000
+    castRange: 0
+    AOERange:
+      mKey: 1
+      mValue: 50
+    offsetpara: 20-20-30
+    damageType: 0
+    skillCost: 6e000000
+    coolDown:
+    - 5000
+    castAnimation: skill1
+    castPoint:
+    - 300
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 0
+    action:
+    - mKey: 1
+      mValue: 500101
+    - mKey: 4
+      mValue: 500102
+    - mKey: 4
+      mValue: 500103
+  - id: 9999
+    name: "\u6708\u795E\u4E4B\u7BAD"
+    icon: 
+    description: "\u5411\u4E00\u4E2A\u65B9\u5411\u5C04\u51FA\u4E00\u679A\u7BAD\uFF0C\u547D\u4E2D\u7684\u7B2C\u4E00\u4E2A\u654C\u4EBA\u9020\u6210\u7729\u6655\u548C\u4F24\u5BB3"
+    type: 1
+    behavior: 02000000
+    castRange: 0
+    AOERange:
+      mKey: 1
+      mValue: 50
+    offsetpara: 20-20-30
+    damageType: 0
+    skillCost: 6e000000
+    coolDown:
+    - 5000
+    castAnimation: skill1
+    castPoint:
+    - 300
+    channelTime: 0
+    targetTeam: 1
+    targetType: 0200000004000000
+    targetFlags: 0
+    action:
+    - mKey: 1
+      mValue: 500101
+    - mKey: 4
+      mValue: 500102
+    - mKey: 4
+      mValue: 500103
