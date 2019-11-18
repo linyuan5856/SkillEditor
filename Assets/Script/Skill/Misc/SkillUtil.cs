@@ -85,7 +85,7 @@ public class SkillUtil
         if (!IsValidIndex(index, data.SkillCastPoint))
             return 0f;
 
-        return data.SkillCastPoint[index];
+        return data.SkillCastPoint[index]/1000;
     }
 
     public static bool GetSkillActionDamage(int lv, SkillActionData data, out int damage)
