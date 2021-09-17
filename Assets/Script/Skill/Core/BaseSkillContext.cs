@@ -8,7 +8,7 @@
 
         protected BaseSkillContext(ISkillActor actor)
         {
-            this.mSkillActor = actor;
+            mSkillActor = actor;
             mSkillManager = new SkillManager();
             mBuffManager = new BuffManager();
         }

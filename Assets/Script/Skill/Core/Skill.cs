@@ -30,33 +30,31 @@ namespace BluePro.Skill
 
         public virtual void Init(SkillData skillData, ISkillContext skillContext)
         {
-            this.data = skillData;
-            this.context = skillContext;
-            this.id = data?.Id ?? 0;
+            data = skillData;
+            context = skillContext;
+            id = data?.Id ?? 0;
             skillParamDic = new Dictionary<int, CommonParam>();
             buffParamDic = new Dictionary<int, CommonParam>();
             skillRecordDic = new Dictionary<int, Dictionary<int, int>>();
-            this.isInit = true;
-            this.OnOwnedSkill(identifyId);
+            isInit = true;
+            OnOwnedSkill(identifyId);
         }
 
         private void AddSkillParam(int id, CommonParam param, bool isSkill = true)
         {
             Dictionary<int, CommonParam> dic = isSkill ? skillParamDic : buffParamDic;
-            if (dic != null)
-            {
-                param.SetIdentifyId(id, !isSkill);
-                dic.Add(id, param);
-            }
+            if (dic == null) return;
+            param.SetIdentifyId(id, !isSkill);
+            dic.Add(id, param);
         }
 
         private void RemoveSkillParam(int id, bool isSkill = true)
         {
             Dictionary<int, CommonParam> dic = isSkill ? skillParamDic : buffParamDic;
             if (dic != null && dic.ContainsKey(id))
-                this.skillParamDic.Remove(id);
+                skillParamDic.Remove(id);
             else
-                SkillUtil.LogError(string.Format("Param ID->{0} 在字典中不存在", id));
+                SkillUtil.LogError($"Param ID->{id} 在字典中不存在");
         }
 
 
@@ -85,33 +83,32 @@ namespace BluePro.Skill
             if (dic.ContainsKey(identifyId))
                 return dic[identifyId];
 
-
-            SkillUtil.LogError(string.Format("{0} Param为空 IdentifyId->{1} ",
-                SkillUtil.GetSkillDebugDes(this) + " " + (isBuff ? "Buff" : "Skill"),
-                identifyId));
+            var error =
+                $"{SkillUtil.GetSkillDebugDes(this) + " " + (isBuff ? "Buff" : "Skill")} Param为空 IdentifyId->{identifyId} ";
+            SkillUtil.LogError(error);
             return null;
         }
 
 
         public virtual bool IsSKillEnd(int identifyId)
         {
-            return !this.skillParamDic.ContainsKey(identifyId);
+            return !skillParamDic.ContainsKey(identifyId);
         }
 
         public ISkillContext GetContext()
         {
-            return this.context;
+            return context;
         }
 
         public SkillData GetData()
         {
-            return this.data;
+            return data;
         }
 
 
         public int GetSkillId()
         {
-            return this.id;
+            return id;
         }
 
         public int GetSkillLevel()
@@ -121,7 +118,7 @@ namespace BluePro.Skill
 
         public virtual void UpdateSkillLevel(int newLv)
         {
-            this.level = newLv;
+            level = newLv;
         }
 
         public virtual void CastSkill(CommonParam commonParam)
@@ -134,33 +131,31 @@ namespace BluePro.Skill
 
             if (!CheckCDValid())
             {
-                SkillUtil.Log(string.Format("Skill->{0} Is CD", this.id));
+                SkillUtil.Log($"Skill->{id} Is CD");
                 return;
             }
 
             if (!CheckCostValid())
             {
-                SkillUtil.Log(string.Format("Skill->{0} Cost Not Enough", this.id));
+                SkillUtil.Log($"Skill->{id} Cost Not Enough");
                 return;
             }
 
             identifyId++;
             AddSkillParam(identifyId, commonParam);
 
-            SkillUtil.LogWarning(string.Format("{0} 开始释放", SkillUtil.GetSkillDebugDes(this)));
-            this.PlayAnimation();
-            float castPointTime = SkillUtil.GetSkillCastPoint(this.GetSkillLevel(), data);
+            SkillUtil.LogWarning($"{SkillUtil.GetSkillDebugDes(this)} 开始释放");
+            PlayAnimation();
+            float castPointTime = SkillUtil.GetSkillCastPoint(GetSkillLevel(), data);
 
             void CastSkill(bool isEnd, object[] param)
             {
-                CommonParam actionParam = (CommonParam) param[0];
-                if (isEnd)
-                    this.OnCastSkillStart(actionParam.IdentifyId);
+                CommonParam actionParam = (CommonParam)param[0];
+                if (isEnd) OnCastSkillStart(actionParam.IdentifyId);
             }
 
             var timerService = ServiceLocate.Instance.GetService<TimerService>();
-            timerService.CreateTimer(CastSkill, 0.1f, castPointTime,
-                new object[] {commonParam});
+            timerService.CreateTimer(CastSkill, 0.1f, castPointTime, new object[] { commonParam });
         }
 
         public void AddSkillAction(int actionId, int identifyId)
@@ -170,12 +165,12 @@ namespace BluePro.Skill
 
             //todo  need a pool ,always create dictionary 
             Dictionary<int, int> record = null;
-            if (this.skillRecordDic.ContainsKey(identifyId))
-                record = this.skillRecordDic[identifyId];
+            if (skillRecordDic.ContainsKey(identifyId))
+                record = skillRecordDic[identifyId];
             if (record == null)
             {
                 record = new Dictionary<int, int>();
-                this.skillRecordDic.Add(identifyId, record);
+                skillRecordDic.Add(identifyId, record);
             }
 
             int time = 1;
@@ -200,17 +195,15 @@ namespace BluePro.Skill
         private bool Internal_RemoveSkillAction(int actionId, int identifyId)
         {
             //SkillUtil.LogWarning(string.Format("{0} SkillRemoveAction ActionID->{1}  IdentifyId->{2}",
-            // SkillUtil.GetSkillDebugDes(this), actionId, identifyId));
-
-
+            
             Dictionary<int, int> record = null;
-            if (this.skillRecordDic.ContainsKey(identifyId))
-                record = this.skillRecordDic[identifyId];
+            if (skillRecordDic.ContainsKey(identifyId))
+                record = skillRecordDic[identifyId];
             if (record == null)
             {
-                SkillUtil.LogError(String.Format(
-                    " [Remove Skill Action Failed,Can't Find identifyId {0} ActionID->{1}  IdentifyId->{2}",
-                    SkillUtil.GetSkillDebugDes(this), actionId, identifyId));
+                var error =
+                    $" [Remove Action Failed,SkillId {SkillUtil.GetSkillDebugDes(this)} ActionID->{actionId}  IdentifyId->{identifyId}";
+                SkillUtil.LogError(error);
                 return false;
             }
 
@@ -230,9 +223,9 @@ namespace BluePro.Skill
             }
             else
             {
-                SkillUtil.LogError(String.Format(
-                    " [Remove Skill Action Failed,Can't Find ActionId {0} ActionID->{1}  IdentifyId->{2}",
-                    SkillUtil.GetSkillDebugDes(this), actionId, identifyId));
+                var error =
+                    $" [Remove Action Failed,SkillId {SkillUtil.GetSkillDebugDes(this)} ActionID->{actionId}  IdentifyId->{identifyId}";
+                SkillUtil.LogError(error);
                 return false;
             }
 
@@ -242,7 +235,7 @@ namespace BluePro.Skill
         void PlayAnimation()
         {
             if (!string.IsNullOrEmpty(data.SkillCastAnimation))
-                this.context.GetSelfActor().PlayAnimation(data.SkillCastAnimation);
+                context.GetSelfActor().PlayAnimation(data.SkillCastAnimation);
         }
 
         /// <summary>
@@ -269,7 +262,7 @@ namespace BluePro.Skill
         /// <param name="identifyId"></param>
         void OnCastSkillStart(int identifyId)
         {
-            this.BeginCdTick();
+            BeginCdTick();
             SkillActionTrigger.Instance.TryTriggerAction(this, data, SkillActionTriggerTime.StartCastSkill, identifyId);
         }
 
@@ -278,14 +271,14 @@ namespace BluePro.Skill
         /// </summary>
         void OnCastSkillEnd(int identifyId)
         {
-            var param = this.GetParam(identifyId, false);
+            var param = GetParam(identifyId, false);
             if (param == null)
                 return;
             if (param.IsBounce)
                 param.SetBounceState(false, -1, -1);
             RemoveSkillParam(identifyId);
-            if (this.skillRecordDic.ContainsKey(identifyId))
-                this.skillRecordDic.Remove(identifyId);
+            if (skillRecordDic.ContainsKey(identifyId))
+                skillRecordDic.Remove(identifyId);
             SkillUtil.LogWarning(string.Format("{0} 技能释放结束 ", SkillUtil.GetSkillDebugDes(this)));
         }
 
@@ -295,7 +288,7 @@ namespace BluePro.Skill
         /// <param name="identifyId"></param>
         public virtual void OnBounceNodeEnd(int identifyId, int activeId)
         {
-            CommonParam param = this.GetParam(identifyId, false);
+            CommonParam param = GetParam(identifyId, false);
             if (param == null)
                 return;
 
@@ -306,7 +299,7 @@ namespace BluePro.Skill
                 float.TryParse(bounceData.Para2, out float interval); //弹射间隔
                 if (param.BounceParam.BounceTime < maxBounceTime) //开始下一次弹射
                 {
-                    object[] actionParam = {activeId, bounceData.Id, identifyId};
+                    object[] actionParam = { activeId, bounceData.Id, identifyId };
 
                     if (interval > 0)
                     {
@@ -319,7 +312,7 @@ namespace BluePro.Skill
                 else //超过弹射次数
                 {
                     SkillUtil.LogWarning("超过最大弹射次数 弹射取消 Max Time->" + maxBounceTime);
-                    this.RemoveSkillAction(activeId, param);
+                    RemoveSkillAction(activeId, param);
                 }
             }
         }
@@ -331,18 +324,18 @@ namespace BluePro.Skill
         /// <param name="params"></param>
         void TryDoNextBounce(bool isTickEnd, object[] @params)
         {
-            int activeId = (int) @params[0];
-            int bounceDataId = (int) @params[1];
-            int identifyId = (int) @params[2];
+            int activeId = (int)@params[0];
+            int bounceDataId = (int)@params[1];
+            int identifyId = (int)@params[2];
 
-            CommonParam param = this.GetParam(identifyId, false);
+            CommonParam param = GetParam(identifyId, false);
             if (param == null)
                 return;
 
             param.BounceParam.AddBounceTime();
             SkillActionTrigger.Instance.Trigger(this, bounceDataId, identifyId);
             if (!IsSKillEnd(identifyId)) //触发下次弹射可能找不到目标而提前结束
-                this.RemoveSkillAction(activeId, param);
+                RemoveSkillAction(activeId, param);
         }
 
         /// <summary>
@@ -368,8 +361,8 @@ namespace BluePro.Skill
         void BeginCdTick()
         {
             //todo
-            // this.leftCDTime = SkillUtil.GetSkillCoolDown(this.GetSkillLevel(), data);
-            // cdTimerID = TimerManager.Instance.CreateTimer(UpdateCd, cdInterval, this.leftCDTime);
+            // leftCDTime = SkillUtil.GetSkillCoolDown(GetSkillLevel(), data);
+            // cdTimerID = TimerManager.Instance.CreateTimer(UpdateCd, cdInterval, leftCDTime);
         }
 
         void UpdateCd(bool isEnd, object param)
@@ -377,7 +370,7 @@ namespace BluePro.Skill
             leftCDTime -= cdInterval;
             if (isEnd)
             {
-                this.leftCDTime = 0;
+                leftCDTime = 0;
                 SkillUtil.LogWarning(string.Format("{0} 冷却完毕 ",
                     SkillUtil.GetSkillDebugDes(this)));
             }
@@ -394,11 +387,11 @@ namespace BluePro.Skill
 
         bool CheckCostValid()
         {
-            if (this.context == null || this.data == null)
+            if (context == null || data == null)
                 return false;
 
-            int cost = SkillUtil.GetSkillCost(this.GetSkillLevel(), data);
-            return this.context.CheckManaValid(cost);
+            int cost = SkillUtil.GetSkillCost(GetSkillLevel(), data);
+            return context.CheckManaValid(cost);
         }
     }
 }

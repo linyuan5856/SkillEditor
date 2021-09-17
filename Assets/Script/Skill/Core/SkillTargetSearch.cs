@@ -33,8 +33,8 @@ namespace BluePro.Skill
             bool isIgnoreRepeat = string.Equals("1", data.Para5);
 
             //todo  fake data,need real check 
-            var targetArrary = GameObject.FindObjectsOfType<TestSkillActor>();
-            param.AddTargets(targetArrary);
+            var targetArray = GameObject.FindObjectsOfType<TestSkillActor>();
+            param.AddTargets(targetArray);
             FilterTarget(context, data, param);
             var targets = param.Targets;
 
@@ -47,21 +47,16 @@ namespace BluePro.Skill
             for (int i = 0; i < targets.Count; i++)
             {
                 var target = targets[i];
-                if (target.IsDead())
-                    continue;
+                if (target.IsDead()) continue;
                 //todo TestSkillActor remove
-                if ((TestSkillActor) target == (TestSkillActor) context.GetSelfActor())
-                    continue;
-                if (!isIgnoreRepeat && param.BounceParam.HasBounced(target))
-                    continue;
+                if ((TestSkillActor) target == (TestSkillActor) context.GetSelfActor()) continue;
+                if (!isIgnoreRepeat && param.BounceParam.HasBounced(target)) continue;
 
                 var distance = Vector3.Distance(target.GetTransform().position,
                     param.BounceParam.LastBouncedActor.GetTransform().position);
-                if (distance < minDistance && distance <= range)
-                {
-                    minDistance = distance;
-                    nearestActor = target;
-                }
+                if (!(distance < minDistance) || !(distance <= range)) continue;
+                minDistance = distance;
+                nearestActor = target;
             }
 
             param.ResetTarget();

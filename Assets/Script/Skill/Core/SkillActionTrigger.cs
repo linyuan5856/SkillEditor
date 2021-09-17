@@ -36,15 +36,12 @@ namespace BluePro.Skill
 
         private bool HasAction(SkillData data, SkillActionTriggerTime triggerTime, ref List<int> actions)
         {
-            if (actions == null)
-                actions = new List<int>();
+            actions ??= new List<int>();
             actions.Clear();
 
             bool bFind = false;
-            for (int i = 0; i < data.Action.Count; i++)
+            foreach (var ac in data.Action)
             {
-                var ac = data.Action[i];
-
                 var acType = (SkillActionTriggerTime) ac.Key;
                 if (acType == triggerTime)
                 {
@@ -60,11 +57,9 @@ namespace BluePro.Skill
             Action confirmCb = null)
         {
             SkillUtil.Log(string.Format("  TriggerTime-> {0}", triggerTime));
-            if (HasAction(data, triggerTime, ref cacheActions))
-            {
-                confirmCb?.Invoke();
-                TriggerMultiple(skill, cacheActions, identifyId);
-            }
+            if (!HasAction(data, triggerTime, ref cacheActions)) return;
+            confirmCb?.Invoke();
+            TriggerMultiple(skill, cacheActions, identifyId);
         }
 
         public bool Trigger(ISkill skill, int actionId, int identifyId)
@@ -87,14 +82,12 @@ namespace BluePro.Skill
             }
 
             var result = true;
-            for (int i = 0; i < actionIds.Count; i++)
-            {
-                skill.AddSkillAction(actionIds[i], identifyId);
-            }
+            foreach (var actionId in actionIds)
+                skill.AddSkillAction(actionId, identifyId);
 
-            for (int i = 0; i < actionIds.Count; i++)
+            foreach (var actionId in actionIds)
             {
-                if (!Internal_TriggerAction(skill, actionIds[i], identifyId, false, false))
+                if (!Internal_TriggerAction(skill, actionId, identifyId, false, false))
                     result = false;
             }
 
@@ -154,22 +147,15 @@ namespace BluePro.Skill
 
             SkillTargetSearch.Instance.GetTargets(skillContext, data, param);
 
-            if (!param.HasTargets())
+            if (param.HasTargets()) return true;
+            if (param.IsBounce)
             {
-                if (param.IsBounce)
-                {
-                    SkillUtil.Log(SkillUtil.GetSkillDebugDes(skill) + "技能没有目标 弹射结束");
-                    skill.RemoveSkillAction(data.Id, param);
-                }
-                else
-                {
-                    SkillUtil.LogError(SkillUtil.GetSkillDebugDes(skill) + "ActionID->" + id + " 技能没有目标");
-                }
-
-                return false;
+                SkillUtil.Log(SkillUtil.GetSkillDebugDes(skill) + "技能没有目标 弹射结束");
+                skill.RemoveSkillAction(data.Id, param);
             }
-
-            return true;
+            else
+                SkillUtil.LogError(SkillUtil.GetSkillDebugDes(skill) + "ActionID->" + id + " 技能没有目标");
+            return false;
         }
     }
 }

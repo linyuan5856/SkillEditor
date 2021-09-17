@@ -36,13 +36,13 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     void InitDebug()
     {
-        this.logQueue = new Queue<string>();
-        this.text = this.GetComponentInChildren<TextMeshPro>();
-        this.text.color = Color.black;
-        var rd = this.GetComponent<Renderer>();
+        logQueue = new Queue<string>();
+        text = GetComponentInChildren<TextMeshPro>();
+        text.color = Color.black;
+        var rd = GetComponent<Renderer>();
         if (rd == null)
             return;
-        var color = this.targetTeamType == SkillTargetTeamType.Enemy ? Color.red : Color.green;
+        var color = targetTeamType == SkillTargetTeamType.Enemy ? Color.red : Color.green;
         rd.material.color = color;
 
         StartCoroutine(UpdateLog());
@@ -50,7 +50,7 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     void EnqeueLog(string log)
     {
-        this.logQueue?.Enqueue(log);
+        logQueue?.Enqueue(log);
     }
 
     IEnumerator UpdateLog()
@@ -59,17 +59,17 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
         {
             string log = oldLog;
             if (logQueue.Count > 0)
-                log = this.logQueue.Dequeue();
+                log = logQueue.Dequeue();
             if (!string.Equals(log, oldLog))
             {
                 idleTime = 0;
             }
 
             idleTime += Time.deltaTime;
-            this.text.text = log;
+            text.text = log;
             oldLog = log;
             if (idleTime > 0.08)
-                this.text.text = string.Empty;
+                text.text = string.Empty;
             yield return new WaitForSecondsRealtime(0.2f);
         }
     }
@@ -78,15 +78,15 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     void Start()
     {
-        this._anim = this.GetComponent<Animator>();
-        if (!this._anim)
-            this._anim = this.gameObject.AddComponent<Animator>();
+        _anim = GetComponent<Animator>();
+        if (!_anim)
+            _anim = gameObject.AddComponent<Animator>();
 
         //实例化和Init要分开步骤
-        this.skillComponent = new SkillComponent(this);
-        this.skillComponent.Init();
+        skillComponent = new SkillComponent(this);
+        skillComponent.Init();
 
-        // this.InitDebug();
+        // InitDebug();
     }
 
 
@@ -96,15 +96,15 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
         skillComponent?.CastSkill(index, param);
     }
 
-    public void CastSkillById(int id,CommonParam param)
+    public void CastSkillById(int id, CommonParam param)
     {
         EnqeueLog("Cast Skill ");
-        skillComponent?.CastSkillById(id,param);
+        skillComponent?.CastSkillById(id, param);
     }
 
     public ISkillContext GetSkillContext()
     {
-        return this.skillComponent;
+        return skillComponent;
     }
 
     public bool PlayAnimation(string anim)
@@ -135,20 +135,20 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     public Transform GetTransform()
     {
-        return this.transform;
+        return transform;
     }
 
     public bool Damage(ISkill skill, int value)
     {
         SkillUtil.Log(string.Format(" {0}   -damage -> {1}", GetBaseDes(), value));
-        this.Internal_Damage(skill, value);
+        Internal_Damage(skill, value);
         return true;
     }
 
     public bool Heal(ISkill skill, int value)
     {
         SkillUtil.Log(string.Format(" {0}   Heal -> {1} ", GetBaseDes(), value));
-        this.Internal_Heal(skill, value);
+        Internal_Heal(skill, value);
         return true;
     }
 
@@ -166,19 +166,18 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
     {
         if (value == 0)
             return;
-        var old = this.speed;
-        this.speed += value;
-        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, this.speed, Math.Abs(value)));
+        var old = speed;
+        speed += value;
+        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, speed, Math.Abs(value)));
         SkillUtil.Log(string.Format(" {0}   Speed -> {1} ", GetBaseDes(), value));
     }
 
     public void ModifyAttack(int value)
     {
-        if (value == 0)
-            return;
-        var old = this.attack;
-        this.attack += value;
-        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, this.attack, Math.Abs(value)));
+        if (value == 0) return;
+        var old = attack;
+        attack += value;
+        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, attack, Math.Abs(value)));
         SkillUtil.Log(string.Format(" {0}   Attack -> {1} ", GetBaseDes(), value));
     }
 
@@ -186,9 +185,9 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
     {
         if (value == 0)
             return;
-        var old = this.armor;
-        this.armor += value;
-        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, this.armor, Math.Abs(value)));
+        var old = armor;
+        armor += value;
+        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, armor, Math.Abs(value)));
         SkillUtil.Log(string.Format(" {0}   Armor -> {1} ", GetBaseDes(), value));
     }
 
@@ -207,20 +206,20 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
     void Internal_Damage(ISkill skill, int value)
     {
         var data = skill.GetData();
-        if (data != null && (SkillType) data.SkillType == SkillType.NormalAttack)
+        if (data != null && (SkillType)data.SkillType == SkillType.NormalAttack)
         {
-            this.GetSkillContext().OtherNormalAttackActor();
+            GetSkillContext().OtherNormalAttackActor();
             skill.GetContext().ActorNormalAttackOther();
         }
 
-        this.GetSkillContext().OtherHurtActor();
+        GetSkillContext().OtherHurtActor();
         skill.GetContext().ActorHurtOther();
 
-        this.hp -= value;
-        if (this.hp <= 0)
+        hp -= value;
+        if (hp <= 0)
         {
             EnqeueLog(string.Format(" damage -> {0} Player Dead", value));
-            this.PlayerDead(skill);
+            PlayerDead(skill);
         }
         else
             EnqeueLog(string.Format("damage -> {0} Hp->{1} ", value, hp));
@@ -228,21 +227,21 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     void Internal_Heal(ISkill skill, int value)
     {
-        this.hp += value;
+        hp += value;
     }
 
     void PlayerDead(ISkill skill)
     {
         isDead = true;
-        this.GetSkillContext().ActorBeKilled();
+        GetSkillContext().ActorBeKilled();
         skill.GetContext().ActorKilledOther();
-        this.GetSkillContext()?.ClearAllBuff();
+        GetSkillContext()?.ClearAllBuff();
     }
 
 
     private string GetBaseDes()
     {
-        return string.Format("[ContextId {0} Name {1}  ] ", contextId, this.gameObject.name);
+        return string.Format("[ContextId {0} Name {1}  ] ", contextId, gameObject.name);
     }
 
     public SkillTargetTeamType GetTargetTeamType()

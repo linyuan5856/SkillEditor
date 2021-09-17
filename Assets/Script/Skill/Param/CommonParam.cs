@@ -12,31 +12,31 @@ namespace BluePro.Skill
 
         public CommonParam(ISkillActor actor)
         {
-            this.actorClicked = actor;
+            actorClicked = actor;
         }
 
-        private bool isBuff; //buff系统使用的参数
+        private bool _isBuff; //buff系统使用的参数
         private int identifyId; //每个释放的技能和技能参数的标志ID（每启动一次技能 ID++） 
         private bool isBounce; //是否是弹射状态
-        private Vector3 postion; //点击的目标Point位置
+        private Vector3 _postion; //点击的目标Point位置
         private List<ISkillActor> targets; //技能作用的所有目标
         private ISkillActor actorClicked; //施法者点击目标
-        public bool IsBuff => isBuff;
+        public bool IsBuff => _isBuff;
         public int IdentifyId => identifyId;
         public bool IsBounce => isBounce;
-        public Vector3 Postion => postion;
+        public Vector3 Postion => _postion;
         public List<ISkillActor> Targets => targets;
         public ISkillActor ActorClicked => actorClicked;
 
         public void SetIdentifyId(int id, bool isBuff)
         {
-            this.identifyId = id;
-            this.isBuff = isBuff;
+            identifyId = id;
+            _isBuff = isBuff;
         }
 
         public void SetPosition(Vector3 postion)
         {
-            this.postion = postion;
+            _postion = postion;
         }
 
         public bool HasTargets()
@@ -57,9 +57,7 @@ namespace BluePro.Skill
                 return;
             }
 
-            if (targets == null)
-                targets = new List<ISkillActor>();
-
+            targets ??= new List<ISkillActor>();
             targets.Add(actor);
         }
 
@@ -71,9 +69,7 @@ namespace BluePro.Skill
                 return;
             }
 
-            if (targets == null)
-                targets = new List<ISkillActor>();
-
+            targets ??= new List<ISkillActor>();
             targets.AddRange(target.ToList());
         }
 
@@ -85,8 +81,8 @@ namespace BluePro.Skill
 
         public void SetBounceState(bool bBounce, int actionId, int searchActionId)
         {
-            this.isBounce = bBounce;
-            this.BounceParam.SetBounceState(bBounce, actionId, searchActionId);
+            isBounce = bBounce;
+            BounceParam.SetBounceState(bBounce, actionId, searchActionId);
         }
     }
 }

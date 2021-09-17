@@ -14,7 +14,7 @@ namespace BluePro.Skill
 
         public void Init(ISkillContext context)
         {
-            this.mContext = context;
+            mContext = context;
             buffMap = new MapList<int, IBuff>();
             stateMap = new Dictionary<int, int>();
             buffTimerMap = new Dictionary<int, Queue<int>>();
@@ -24,15 +24,14 @@ namespace BluePro.Skill
         public bool AddBuff(ISkill skill, int buffId)
         {
             SkillUtil.LogWarning(string.Format(" [BUFFMANAGER]  [NAME]->{0}  AddBuff-> {1}",
-                this.mContext.GetSelfActor().GetTransform().name,
-                buffId));
+                mContext.GetSelfActor().GetTransform().name, buffId));
 
             IBuff buff = null;
             bool canModify = true;
             float life = 0;
-            if (this.buffMap.ContainsKey(buffId))
+            if (buffMap.ContainsKey(buffId))
             {
-                buff = this.buffMap[buffId];
+                buff = buffMap[buffId];
                 canModify = buff is IOverLayBuff;
                 /*Buff
                   1.已经拥有 2.有持续时间 3.不可叠加
@@ -44,18 +43,18 @@ namespace BluePro.Skill
             else
             {
                 var data = SkillUtil.GetSkillBuffData(buffId);
-                bool isOverLay = data.Attributes.Contains((int) BuffAttributes.CanAdd);
+                bool isOverLay = data.Attributes.Contains((int)BuffAttributes.CanAdd);
                 buff = isOverLay ? new OverlayBuff() : new Buff();
                 buff.Create(skill, mContext.GetSelfActor(), buffId);
-                this.buffMap.Add(buffId, buff);
+                buffMap.Add(buffId, buff);
             }
 
             if (canModify) //只有新加的和可叠加的Buff才能触发Modify
             {
-                this.BuffModify(buffId);
+                BuffModify(buffId);
 
                 //1.先判定这个Buff 是不是一个循环定时器
-                if (!this.TryAddLoopTimer(buffId))
+                if (!TryAddLoopTimer(buffId))
                 {
                     life = buff.GetDuringTime();
                     if (life > 0)
@@ -69,7 +68,7 @@ namespace BluePro.Skill
                 }
             }
 
-            this.OnBuffEventDispatch(BuffActionType.AddBuff);
+            OnBuffEventDispatch(BuffActionType.AddBuff);
             return true;
         }
 
@@ -85,12 +84,12 @@ namespace BluePro.Skill
         public bool TryRemoveBuff(int buffId, bool forceClean)
         {
             SkillUtil.LogWarning(string.Format(" [BUFFMANAGER] [Target]->{0}  TryRemoveBuff -> {1}",
-                this.mContext.GetSelfActor().GetTransform().name, buffId));
+                mContext.GetSelfActor().GetTransform().name, buffId));
             if (buffMap.ContainsKey(buffId))
             {
                 var buff = buffMap[buffId];
                 if (buff.GetDuringTime() > 0)
-                    this.RemoveTimer(buffId, forceClean);
+                    RemoveTimer(buffId, forceClean);
 
 
                 bool isOverLayBuff = buff is IOverLayBuff;
@@ -100,17 +99,17 @@ namespace BluePro.Skill
                     int time = forceClean ? overlayBuff.GetOverlayTime() : 1;
                     for (int i = 0; i < time; i++)
                     {
-                        this.EndBuffModify(buffId);
+                        EndBuffModify(buffId);
                     }
 
                     var result = overlayBuff.TryRemove();
                     if (result || forceClean)
-                        this.RemoveBuff(buff);
+                        RemoveBuff(buff);
                 }
                 else //普通Buff
                 {
-                    this.EndBuffModify(buffId);
-                    this.RemoveBuff(buff);
+                    EndBuffModify(buffId);
+                    RemoveBuff(buff);
                 }
             }
 
@@ -120,9 +119,9 @@ namespace BluePro.Skill
         private void RemoveBuff(IBuff buff)
         {
             int buffId = buff.GetBuffId();
-            this.OnBuffEventDispatch(BuffActionType.RemoveBuff);
+            OnBuffEventDispatch(BuffActionType.RemoveBuff);
             buff.Release();
-            this.buffMap.Remove(buffId);
+            buffMap.Remove(buffId);
         }
 
         /// <summary>
@@ -131,11 +130,11 @@ namespace BluePro.Skill
         public void ClearAllBuff()
         {
             SkillUtil.LogWarning(string.Format(" [BUFFMANAGER] [Target]->{0}  Clear All Buff",
-                this.mContext.GetSelfActor().GetTransform().name));
+                mContext.GetSelfActor().GetTransform().name));
             var list = buffMap.AsList();
             for (int i = 0; i < list.Count; i++)
             {
-                this.TryRemoveBuff(list[i].GetBuffId(), true);
+                TryRemoveBuff(list[i].GetBuffId(), true);
             }
         }
 
@@ -145,7 +144,7 @@ namespace BluePro.Skill
         private void BuffModify(int buffId)
         {
             var buffData = SkillUtil.GetSkillBuffData(buffId);
-            var buff = this.buffMap[buffId];
+            var buff = buffMap[buffId];
             if (buffData == null || buff == null)
                 return;
             AddActorState(buff, buffData);
@@ -160,7 +159,7 @@ namespace BluePro.Skill
         private void EndBuffModify(int buffId)
         {
             var buffData = SkillUtil.GetSkillBuffData(buffId);
-            var buff = this.buffMap[buffId];
+            var buff = buffMap[buffId];
             if (buffData == null || buff == null)
                 return;
 
@@ -172,40 +171,40 @@ namespace BluePro.Skill
 
         private void AddActorState(IBuff buff, SkillBuffData buffData)
         {
-            if (buffData.State != (int) ActorSkillState.None)
+            if (buffData.State != (int)ActorSkillState.None)
             {
                 var stateData = SkillUtil.GetSkillStateData(buffData.State);
                 int key = stateData.StateType;
-                if (this.stateMap.ContainsKey(key))
+                if (stateMap.ContainsKey(key))
                 {
-                    var number = this.stateMap[key];
-                    this.stateMap[key] = number + 1;
+                    var number = stateMap[key];
+                    stateMap[key] = number + 1;
                 }
                 else
                 {
-                    this.stateMap.Add(key, 1);
-                    buff.GetTarget()?.AddState((ActorSkillState) key);
+                    stateMap.Add(key, 1);
+                    buff.GetTarget()?.AddState((ActorSkillState)key);
                 }
             }
         }
 
         private void RemoveActorState(IBuff buff, SkillBuffData buffData)
         {
-            if (buffData.State != (int) ActorSkillState.None)
+            if (buffData.State != (int)ActorSkillState.None)
             {
                 var stateData = SkillUtil.GetSkillStateData(buffData.State);
                 int key = stateData.StateType;
-                if (this.stateMap.ContainsKey(key))
+                if (stateMap.ContainsKey(key))
                 {
-                    var number = this.stateMap[key];
+                    var number = stateMap[key];
                     var newValue = number - 1;
                     if (newValue <= 0)
                     {
-                        this.stateMap.Remove(key);
-                        buff.GetTarget()?.RemoveState((ActorSkillState) key);
+                        stateMap.Remove(key);
+                        buff.GetTarget()?.RemoveState((ActorSkillState)key);
                     }
                     else
-                        this.stateMap[key] = newValue;
+                        stateMap[key] = newValue;
                 }
             }
         }
@@ -224,7 +223,7 @@ namespace BluePro.Skill
 
         private int GetTimerId(int buffId, bool isPeek)
         {
-            if (this.buffTimerMap.ContainsKey(buffId))
+            if (buffTimerMap.ContainsKey(buffId))
             {
                 var queue = buffTimerMap[buffId];
                 if (queue != null && queue.Count > 0)
@@ -232,7 +231,7 @@ namespace BluePro.Skill
                     var timerId = 0;
                     timerId = isPeek ? queue.Peek() : queue.Dequeue();
                     if (queue.Count == 0)
-                        this.buffTimerMap.Remove(buffId);
+                        buffTimerMap.Remove(buffId);
                     return timerId;
                 }
             }
@@ -249,7 +248,7 @@ namespace BluePro.Skill
         /// <param name="timerIdList"></param>
         private void GetAllTimerId(int buffId, ref List<int> timerIdList)
         {
-            if (this.buffTimerMap.ContainsKey(buffId))
+            if (buffTimerMap.ContainsKey(buffId))
             {
                 var queue = buffTimerMap[buffId];
                 if (queue != null && queue.Count > 0)
@@ -260,7 +259,7 @@ namespace BluePro.Skill
                         timerId = queue.Dequeue();
                         timerIdList.Add(timerId);
                         if (queue.Count == 0)
-                            this.buffTimerMap.Remove(buffId);
+                            buffTimerMap.Remove(buffId);
                     }
                 }
             }
@@ -271,31 +270,23 @@ namespace BluePro.Skill
         /// </summary>
         private bool TryAddLoopTimer(int buffId)
         {
-            if (IsBuffActionType(buffId, BuffActionType.LoopTimer, out int actionId))
-            {
-                SkillBuffData data = SkillUtil.GetSkillBuffData(buffId);
-                if (data != null)
-                {
-                    SkillUtil.LogWarning(string.Format(
-                        "[BUFFMANAGER] LoopTimer is Start [BUffId]->[{0}] ActionID->[{1}])"
-                        , buffId, actionId));
-                    CreateLoopTimer(buffId, actionId, data);
-                    return true;
-                }
-            }
-
-            return false;
+            if (!IsBuffActionType(buffId, BuffActionType.LoopTimer, out int actionId)) return false;
+            SkillBuffData data = SkillUtil.GetSkillBuffData(buffId);
+            if (data == null) return false;
+            SkillUtil.LogWarning($"[BUFFMANAGER] LoopTimer is Start [BUffId]->[{buffId}] ActionID->[{actionId}])");
+            CreateLoopTimer(buffId, actionId, data);
+            return true;
         }
 
         private void CreateNormalTimer(float life, int buffId)
         {
-            object[] @params = {buffId};
+            object[] @params = { buffId };
             BaseCreateTimer(buffId, NormalTimerEndCallBack, 0.1f, life, @params);
         }
 
         private void CreateLoopTimer(int buffId, int actionId, SkillBuffData data)
         {
-            object[] @params = {buffId, actionId, buffId};
+            object[] @params = { buffId, actionId, buffId };
             BaseCreateTimer(buffId, LoopTimerEndCallBack, data.ThinkInterval,
                 buffMap[buffId].GetDuringTime(), @params);
         }
@@ -311,26 +302,26 @@ namespace BluePro.Skill
         {
             if (isTickEnd)
             {
-                int id = (int) objs[0];
-                this.TryRemoveBuff(id, false);
+                int id = (int)objs[0];
+                TryRemoveBuff(id, false);
             }
         }
 
         private void LoopTimerEndCallBack(bool isEnd, object[] obj)
         {
-            int id = (int) obj[0];
-            int triggerId = (int) obj[1];
+            int id = (int)obj[0];
+            int triggerId = (int)obj[1];
 
             if (!isEnd) //Tick 定时间间隔回调
             {
-                if (this.buffMap.ContainsKey(id))
-                    Trigger(this.buffMap[id], BuffActionType.LoopTimer, triggerId);
+                if (buffMap.ContainsKey(id))
+                    Trigger(buffMap[id], BuffActionType.LoopTimer, triggerId);
             }
 
             if (isEnd) //定时器已经结束
             {
-                int buffId = (int) obj[2];
-                this.TryRemoveBuff(buffId, false);
+                int buffId = (int)obj[2];
+                TryRemoveBuff(buffId, false);
             }
         }
 
@@ -352,7 +343,7 @@ namespace BluePro.Skill
             int timerId = 0;
             if (forceClean) //Buff下所有计时器全部清除
             {
-                this.GetAllTimerId(buffId, ref tempTimerIdList);
+                GetAllTimerId(buffId, ref tempTimerIdList);
                 for (int i = 0; i < tempTimerIdList.Count; i++)
                 {
                     timerId = tempTimerIdList[i];
@@ -375,7 +366,7 @@ namespace BluePro.Skill
 
         public void OnBuffEventDispatch(BuffActionType type)
         {
-            var buffList = this.buffMap.AsList();
+            var buffList = buffMap.AsList();
             for (int i = 0; i < buffList.Count; i++)
             {
                 var buff = buffList[i];
@@ -406,14 +397,12 @@ namespace BluePro.Skill
             if (data == null)
                 return false;
 
-            for (int j = 0; j < data.Action.Count; j++)
+            foreach (var t in data.Action)
             {
-                BuffActionType triggerType = (BuffActionType) data.Action[j].Key;
-                if (type == triggerType)
-                {
-                    actionId = data.Action[j].Value;
-                    return true;
-                }
+                BuffActionType triggerType = (BuffActionType)t.Key;
+                if (type != triggerType) continue;
+                actionId = t.Value;
+                return true;
             }
 
             return false;
@@ -423,12 +412,12 @@ namespace BluePro.Skill
         {
             if (buff.GetIdentifyId() == SkillDefine.NONE)
             {
-                var param = buff.GetOwner().CreateBuffParam(this.mContext.GetSelfActor());
+                var param = buff.GetOwner().CreateBuffParam(mContext.GetSelfActor());
                 buff.SetIdentifyId(param.IdentifyId);
             }
 
             // SkillUtil.Log(string.Format("[BUFFMANAGER] [NAME->{0}] [Trigger]->{1} [ActionID]->{2}   ",
-            //    this.mContext.GetSelfActor().GetTransform().name, type, actionId));
+            //    mContext.GetSelfActor().GetTransform().name, type, actionId));
             SkillActionTrigger.Instance.TriggerBuff(buff.GetOwner(), actionId, buff.GetIdentifyId());
         }
     }
