@@ -15,11 +15,10 @@
         private void Heal(ISkill skill, CommonParam param, int heal)
         {
             var targets = param.Targets;
-            for (int i = 0; i < targets.Count; i++)
+            foreach (var t in targets)
             {
-                if (targets[i] == null)
-                    continue;
-                targets[i].Heal(skill, heal);
+                if (t == null) continue;
+                t.Heal(skill, heal);
             }
         }
     }

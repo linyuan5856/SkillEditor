@@ -36,7 +36,7 @@ namespace BluePro.Skill
                 var lists = dic[skillContextId];
                 for (int i = 0; i < lists.Count; i++)
                 {
-                    Skill skill = new Skill();
+                    ISkill skill = new Skill();
                     skill.Init(CreateFakeSkillData(lists[i]), skillContext);
                     datas.Add(skill);
                 }

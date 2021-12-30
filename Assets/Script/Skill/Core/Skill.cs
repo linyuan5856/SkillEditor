@@ -279,7 +279,7 @@ namespace BluePro.Skill
             RemoveSkillParam(identifyId);
             if (skillRecordDic.ContainsKey(identifyId))
                 skillRecordDic.Remove(identifyId);
-            SkillUtil.LogWarning(string.Format("{0} 技能释放结束 ", SkillUtil.GetSkillDebugDes(this)));
+            SkillUtil.LogWarning($"{SkillUtil.GetSkillDebugDes(this)} 技能释放结束 ");
         }
 
         /// <summary>
@@ -371,8 +371,7 @@ namespace BluePro.Skill
             if (isEnd)
             {
                 leftCDTime = 0;
-                SkillUtil.LogWarning(string.Format("{0} 冷却完毕 ",
-                    SkillUtil.GetSkillDebugDes(this)));
+                SkillUtil.LogWarning($"{SkillUtil.GetSkillDebugDes(this)} 冷却完毕 ");
             }
         }
 
@@ -380,8 +379,7 @@ namespace BluePro.Skill
         {
             var result = Math.Abs(leftCDTime) < 0.01;
             if (!result)
-                SkillUtil.LogWarning(string.Format("{0}  Need {1} Seconds,SKill Can Caster",
-                    SkillUtil.GetSkillDebugDes(this), leftCDTime));
+                SkillUtil.LogWarning($"{SkillUtil.GetSkillDebugDes(this)}  Need {leftCDTime} Seconds,SKill Can Caster");
             return result;
         }
 

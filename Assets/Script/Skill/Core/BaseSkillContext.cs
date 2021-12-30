@@ -2,7 +2,7 @@
 {
     public class BaseSkillContext : ISkillContext
     {
-        private SkillManager mSkillManager;
+        private ISkillManager mSkillManager;
         private BuffManager mBuffManager;
         private ISkillActor mSkillActor;
 

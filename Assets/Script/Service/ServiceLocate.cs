@@ -74,25 +74,18 @@ namespace BluePro.FrameWork
         void ForEachBehaviour(Action<IBehaviour> ac)
         {
             var list = map.AsList();
-            for (int i = 0; i < list.Count; i++)
+            foreach (var service in list)
             {
-                var service = list[i];
-                if (service is IBehaviour)
-                {
-                    var behaviour = (IBehaviour) service;
+                if (service is IBehaviour behaviour)
                     ac(behaviour);
-                }
             }
         }
 
         void ForEachService(Action<IService> ac)
         {
             var list = map.AsList();
-            for (int i = 0; i < list.Count; i++)
-            {
-                var service = list[i];
+            foreach (var service in list)
                 ac(service);
-            }
         }
     }
 }
