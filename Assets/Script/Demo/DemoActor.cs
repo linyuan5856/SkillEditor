@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using BluePro.Skill;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 #pragma warning disable 0649
 public class DemoActor : MonoBehaviour, ISkillActor
 {
     private Animator _anim;
     private SkillComponent skillComponent;
+    private Image img_hp;
+    private Text txt_hp;
 
     [SerializeField] private int contextId = 1;
     [SerializeField] private int hp = 10000;
@@ -21,47 +24,16 @@ public class DemoActor : MonoBehaviour, ISkillActor
     [SerializeField] public SkillTargetType targetType = SkillTargetType.Hero;
     [SerializeField] public SkillTargetTeamType targetTeamType = SkillTargetTeamType.Enemy;
 
-    #region Debug
-    private TextMeshPro text;
-    private Queue<string> logQueue;
-
-    void InitDebug()
-    {
-        logQueue = new Queue<string>();
-        text = GetComponentInChildren<TextMeshPro>();
-        text.color = Color.black;
-        text.text=String.Empty;
-        var rd = GetComponent<Renderer>();
-        if (rd == null)
-            return;
-        var color = targetTeamType == SkillTargetTeamType.Enemy ? Color.red : Color.green;
-        rd.material.color = color;
-
-        StartCoroutine(UpdateLog());
-    }
-
-    void EnqeueLog(string log)
-    {
-        logQueue?.Enqueue(log);
-    }
-
-    IEnumerator UpdateLog()
-    {
-        var wait=new WaitForSecondsRealtime(0.3f);
-        while (true)
-        {
-            if (logQueue.Count > 0)
-                text.text = logQueue.Dequeue();
-            yield return wait;
-            text.text = string.Empty;
-            yield return wait;
-        }
-    }
-
-    #endregion
-
+    private int maxHp;
     void Start()
     {
+        maxHp = hp;
+        img_hp = transform.Find("Canvas/img_hp").GetComponent<Image>();
+        txt_hp = img_hp.GetComponentInChildren<Text>();
+        UpdateHp(0);
+        img_hp.type = Image.Type.Filled;
+        img_hp.fillMethod = Image.FillMethod.Horizontal;
+        
         _anim = GetComponent<Animator>();
         if (!_anim)
             _anim = gameObject.AddComponent<Animator>();
@@ -197,19 +169,25 @@ public class DemoActor : MonoBehaviour, ISkillActor
         GetSkillContext().OtherHurtActor();
         skill.GetContext().ActorHurtOther();
 
-        hp -= value;
+        UpdateHp(-value);
         if (hp <= 0)
-        {
-            EnqeueLog($" Damage -> {value} Player Dead");
             PlayerDead(skill);
-        }
-        else
-            EnqeueLog($"<color=\"green\"> Damage -> {value} Hp->{hp} ");
     }
 
     void Internal_Heal(ISkill skill, int value)
     {
+        UpdateHp(value);
+    }
+
+    private void UpdateHp(int value)
+    {
         hp += value;
+        if (hp <= 0)hp = 0;
+        txt_hp.text = hp.ToString();
+        img_hp.fillAmount = (float)hp / maxHp;
+        var color = value > 0 ? "<color=\"green\">" : "<color=\"red\">";
+        EnqeueLog($"{color}hp {value}");
+      
     }
 
     void PlayerDead(ISkill skill)
@@ -240,4 +218,48 @@ public class DemoActor : MonoBehaviour, ISkillActor
     {
         return SkillTargetFlag.MagicImmune;
     }
+    
+    #region Debug
+    private TextMeshPro text;
+    private Queue<string> logQueue;
+
+    void InitDebug()
+    {
+        logQueue = new Queue<string>();
+        text = GetComponentInChildren<TextMeshPro>();
+        text.color = Color.black;
+        text.text=String.Empty;
+        var rd = GetComponent<Renderer>();                                     
+        if (rd == null)
+            return;
+        var color = targetTeamType == SkillTargetTeamType.Enemy ? Color.red : Color.green;
+        rd.material.color = color;
+
+        StartCoroutine(UpdateLog());
+    }
+
+    void EnqeueLog(string log)
+    {
+        logQueue?.Enqueue(log);
+    }
+
+    IEnumerator UpdateLog()
+    {
+        var waitAppear=new WaitForSecondsRealtime(0.15f);
+        var waitDisappear=new WaitForSecondsRealtime(0.5f);
+        while (true)
+        {
+            if (logQueue.Count > 0)
+            {
+                text.text = logQueue.Dequeue();
+                yield return waitDisappear;
+                text.text = string.Empty;
+                yield return waitAppear;
+            }
+            else
+                yield return null;
+        }
+    }
+
+    #endregion
 }
