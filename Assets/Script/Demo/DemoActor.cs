@@ -6,16 +6,13 @@ using TMPro;
 using UnityEngine;
 
 #pragma warning disable 0649
-public class TestSkillActor : MonoBehaviour, ISkillActor
+public class DemoActor : MonoBehaviour, ISkillActor
 {
     private Animator _anim;
     private SkillComponent skillComponent;
 
     [SerializeField] private int contextId = 1;
-
     [SerializeField] private int hp = 10000;
-
-    // [SerializeField] private int mana = 120;
     [SerializeField] private int speed = 30;
     [SerializeField] private int attack = 100;
     [SerializeField] private int armor = 10;
@@ -25,20 +22,15 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
     [SerializeField] public SkillTargetTeamType targetTeamType = SkillTargetTeamType.Enemy;
 
     #region Debug
-
     private TextMeshPro text;
     private Queue<string> logQueue;
-    private string oldLog;
-
-    private float idleTime;
-    //private float showTime;
-    //private bool canDequeue = true;
 
     void InitDebug()
     {
         logQueue = new Queue<string>();
         text = GetComponentInChildren<TextMeshPro>();
         text.color = Color.black;
+        text.text=String.Empty;
         var rd = GetComponent<Renderer>();
         if (rd == null)
             return;
@@ -55,22 +47,14 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     IEnumerator UpdateLog()
     {
+        var wait=new WaitForSecondsRealtime(0.3f);
         while (true)
         {
-            string log = oldLog;
             if (logQueue.Count > 0)
-                log = logQueue.Dequeue();
-            if (!string.Equals(log, oldLog))
-            {
-                idleTime = 0;
-            }
-
-            idleTime += Time.deltaTime;
-            text.text = log;
-            oldLog = log;
-            if (idleTime > 0.08)
-                text.text = string.Empty;
-            yield return new WaitForSecondsRealtime(0.2f);
+                text.text = logQueue.Dequeue();
+            yield return wait;
+            text.text = string.Empty;
+            yield return wait;
         }
     }
 
@@ -86,7 +70,7 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
         skillComponent = new SkillComponent(this);
         skillComponent.Init();
 
-        // InitDebug();
+         InitDebug();
     }
 
 
@@ -140,14 +124,14 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     public bool Damage(ISkill skill, int value)
     {
-        SkillUtil.Log(string.Format(" {0}   -damage -> {1}", GetBaseDes(), value));
+        SkillUtil.Log($" {GetBaseDes()}   damage -> {value}");
         Internal_Damage(skill, value);
         return true;
     }
 
     public bool Heal(ISkill skill, int value)
     {
-        SkillUtil.Log(string.Format(" {0}   Heal -> {1} ", GetBaseDes(), value));
+        SkillUtil.Log($" {GetBaseDes()}   Heal -> {value} ");
         Internal_Heal(skill, value);
         return true;
     }
@@ -164,12 +148,11 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     public void ModifySpeed(int value)
     {
-        if (value == 0)
-            return;
+        if (value == 0) return;
         var old = speed;
         speed += value;
-        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, speed, Math.Abs(value)));
-        SkillUtil.Log(string.Format(" {0}   Speed -> {1} ", GetBaseDes(), value));
+        EnqeueLog($"Speed From {old}->{speed} <color=\"red\">[Change]->{Math.Abs(value)}  ");
+        SkillUtil.Log($" {GetBaseDes()}   Speed -> {value} ");
     }
 
     public void ModifyAttack(int value)
@@ -177,29 +160,28 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
         if (value == 0) return;
         var old = attack;
         attack += value;
-        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, attack, Math.Abs(value)));
-        SkillUtil.Log(string.Format(" {0}   Attack -> {1} ", GetBaseDes(), value));
+        EnqeueLog($"Speed From {old}->{attack} [Change]->{Math.Abs(value)}  ");
+        SkillUtil.Log($" {GetBaseDes()}   Attack -> {value} ");
     }
 
     public void ModifyArmor(int value)
     {
-        if (value == 0)
-            return;
+        if (value == 0) return;
         var old = armor;
         armor += value;
-        EnqeueLog(string.Format("Speed From {0}->{1} [Change]->{2}  ", old, armor, Math.Abs(value)));
-        SkillUtil.Log(string.Format(" {0}   Armor -> {1} ", GetBaseDes(), value));
+        EnqeueLog($"Speed From {old}->{armor} [Change]->{Math.Abs(value)}  ");
+        SkillUtil.Log($" {GetBaseDes()}   Armor -> {value} ");
     }
 
     public void AddState(ActorSkillState state)
     {
-        EnqeueLog(string.Format("Add State -> {0}  ", state));
+        EnqeueLog($"Add State -> {state}  ");
         SkillUtil.LogWarning(GetBaseDes() + "  状态添加 ->" + state);
     }
 
     public void RemoveState(ActorSkillState state)
     {
-        EnqeueLog(string.Format("remove State->{0} ", state));
+        EnqeueLog($"remove State->{state} ");
         SkillUtil.LogWarning(GetBaseDes() + "  状态移除 ->" + state);
     }
 
@@ -218,11 +200,11 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
         hp -= value;
         if (hp <= 0)
         {
-            EnqeueLog(string.Format(" damage -> {0} Player Dead", value));
+            EnqeueLog($" Damage -> {value} Player Dead");
             PlayerDead(skill);
         }
         else
-            EnqeueLog(string.Format("damage -> {0} Hp->{1} ", value, hp));
+            EnqeueLog($"<color=\"green\"> Damage -> {value} Hp->{hp} ");
     }
 
     void Internal_Heal(ISkill skill, int value)
@@ -241,7 +223,7 @@ public class TestSkillActor : MonoBehaviour, ISkillActor
 
     private string GetBaseDes()
     {
-        return string.Format("[ContextId {0} Name {1}  ] ", contextId, gameObject.name);
+        return $"[ContextId {contextId} Name {gameObject.name}  ] ";
     }
 
     public SkillTargetTeamType GetTargetTeamType()

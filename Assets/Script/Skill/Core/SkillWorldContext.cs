@@ -28,7 +28,7 @@ namespace BluePro.Skill
                 return null;
             }
 
-            List<ISkill> datas = new List<ISkill>();
+            List<ISkill> dataList = new List<ISkill>();
             int skillContextId = skillContext.GetSkillContextId();
 
             if (dic.ContainsKey(skillContextId))
@@ -37,20 +37,12 @@ namespace BluePro.Skill
                 for (int i = 0; i < lists.Count; i++)
                 {
                     ISkill skill = new Skill();
-                    skill.Init(CreateFakeSkillData(lists[i]), skillContext);
-                    datas.Add(skill);
+                    skill.Init(SkillUtil.GetSkillData(lists[i]), skillContext);
+                    dataList.Add(skill);
                 }
             }
 
-            return datas;
-        }
-
-
-        static SkillData CreateFakeSkillData(int skillId)
-        {
-            var loaderService = ServiceLocate.Instance.GetService<LoaderService>();
-            var data = loaderService.GetRowFromTable(SkillDefine.SKILLTABLE, skillId);
-            return data as SkillData;
+            return dataList;
         }
     }
 }

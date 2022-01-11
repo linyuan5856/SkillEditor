@@ -9,10 +9,16 @@ public class SkillUtil
 {
     public static string GetSkillDebugDes(ISkill skill)
     {
-        return string.Format("[SkillId->{0} Name->{1} ]", skill.GetSkillId(), skill.GetData().Name);
+        return $"[SkillId->{skill.GetSkillId()} Name->{skill.GetData().Name} ]";
     }
 
 //---------------------------------------------------------------------------------------------------------//
+    public static SkillData  GetSkillData(int skillId)
+    {
+        var loaderService = ServiceLocate.Instance.GetService<LoaderService>();
+        return loaderService.GetRowDataFromTable<SkillData>(SkillDefine.SKILLTABLE, skillId);
+    }
+
     public static SkillActionData GetSkillActionData(int id)
     {
         var loaderService = ServiceLocate.Instance.GetService<LoaderService>();
