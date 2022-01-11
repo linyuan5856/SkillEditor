@@ -6,7 +6,7 @@
         public const string SKILLTABLE = "SkillDataTable";
         public const string SKILL_ACTION_TABLE = "SkillActionDataTable";
         public const string SKILL_BUFF_TABLE = "SkillBuffDataTable";
-        public const string SKILL_STATE_TABLE = "SkillStateTable";
+        public const string SKILL_STATE_TABLE = "SkillStateDataTable";
     }
 
     public enum SkillType

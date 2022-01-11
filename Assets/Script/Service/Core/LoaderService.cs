@@ -21,13 +21,18 @@ public class LoaderService : BaseService
 #if UNITY_EDITOR
         const string path = "Assets/Resources/Config/";
         var asset = AssetDatabase.LoadAssetAtPath(path + name + ".asset", typeof(IBaseTable));
+        if (asset == null)
+        {
+            Debug.LogError($"LoadTable-> {name} asset is null");
+            return null;
+        }
         //使用实例化的Copy  防止Editor模式下 更改配置
         table = Object.Instantiate(asset) as IBaseTable;
 #else
         table = Resources.Load("Config/"+name)as BaseTable;
 #endif
         if (table == null)
-            Debug.LogError(string.Format("Table-> {0} is null", name));
+            Debug.LogError($"LoadTable-> {name} is null");
         else
             tableDic.Add(name, table);
         return table;
