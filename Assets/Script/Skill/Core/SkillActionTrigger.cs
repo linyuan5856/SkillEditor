@@ -54,7 +54,7 @@ namespace BluePro.Skill
         public void TryTriggerAction(ISkill skill, SkillData data, ESkillActionTriggerTime triggerTime, int identifyId,
             Action confirmCb = null)
         {
-            SkillUtil.Log($"  TriggerTime-> {triggerTime}");
+            //SkillUtil.Log($"  TriggerTime-> {triggerTime}");
             if (!HasAction(data, triggerTime, ref cacheActions)) return;
             confirmCb?.Invoke();
             TriggerMultiple(skill, cacheActions, identifyId);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BluePro;
 using BluePro.Skill;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class DemoEntry : BaseMain
     protected override void Init()
     {
         base.Init();
+        Debuger.Init(null,new UnityDebugerConsole());
         _instance = this;
         targets = FindObjectsOfType<DemoActor>();
         _ui.gameObject.SetActive(true);

@@ -12,11 +12,10 @@
         private void Damage(ISkill skill, CommonParam param, int damage)
         {
             var targets = param.Targets;
-            for (int i = 0; i < targets.Count; i++)
+            foreach (var actor in targets)
             {
-                if (targets[i] == null)
-                    continue;
-                targets[i].Damage(skill,damage);
+                if (actor == null) continue;
+                actor.Damage(skill,damage);
             }
         }
     }
