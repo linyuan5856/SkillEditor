@@ -244,7 +244,7 @@ namespace BluePro.Skill
         /// <param name="identifyId"></param>
         protected virtual void OnOwnedSkill(int identifyId)
         {
-            var time = SkillActionTriggerTime.OwnedSkill;
+            var time = ESkillActionTriggerTime.OwnedSkill;
             SkillActionTrigger.Instance.TryTriggerAction(this, data, time, identifyId, Internal_OnOwnedSkill);
         }
 
@@ -263,7 +263,7 @@ namespace BluePro.Skill
         void OnCastSkillStart(int identifyId)
         {
             BeginCdTick();
-            SkillActionTrigger.Instance.TryTriggerAction(this, data, SkillActionTriggerTime.StartCastSkill, identifyId);
+            SkillActionTrigger.Instance.TryTriggerAction(this, data, ESkillActionTriggerTime.StartCastSkill, identifyId);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace BluePro.Skill
         /// <param name="identifyId"></param>
         public virtual void OnProjectileHit(int identifyId)
         {
-            SkillActionTrigger.Instance.TryTriggerAction(this, data, SkillActionTriggerTime.ProjectileHit,
+            SkillActionTrigger.Instance.TryTriggerAction(this, data, ESkillActionTriggerTime.ProjectileHit,
                 identifyId);
         }
 
@@ -354,7 +354,7 @@ namespace BluePro.Skill
         /// <param name="identifyId"></param>
         public virtual void OnProjectileDisappear(int identifyId)
         {
-            SkillActionTrigger.Instance.TryTriggerAction(this, data, SkillActionTriggerTime.ProjectileDisappear,
+            SkillActionTrigger.Instance.TryTriggerAction(this, data, ESkillActionTriggerTime.ProjectileDisappear,
                 identifyId);
         }
 

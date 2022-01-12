@@ -9,7 +9,7 @@
         public const string SKILL_STATE_TABLE = "SkillStateDataTable";
     }
 
-    public enum SkillType
+    public enum ESkillType
     {
         NormalAttack,
         NormalSkill,
@@ -18,7 +18,7 @@
         BuildSkill,
     }
 
-    public enum SkillBehaviourType
+    public enum ESkillBehaviourType
     {
         Point = 1,
         Direction,
@@ -29,7 +29,7 @@
         AreaOfEffect, //AOE
     }
 
-    public enum SkillDamageType
+    public enum ESkillDamageType
     {
         Magic = 1,
         Physic,
@@ -37,7 +37,7 @@
     }
 
 
-    public enum SkillActionTriggerTime
+    public enum ESkillActionTriggerTime
     {
         StartCastSkill = 1,
         ContinueSkillSuccess,
@@ -51,7 +51,7 @@
         OwnedSkill
     }
 
-    public enum SkillActionType
+    public enum ESkillActionType
     {
         /*
           1-给目标添加buff
@@ -91,14 +91,14 @@
         Action = 203,
     }
 
-    public enum SkillTargetTeamType
+    public enum ESkillTargetTeamType
     {
         Enemy = 1,
         Friend,
         ALl
     }
 
-    public enum SkillTargetType
+    public enum ESkillTargetType
     {
         None = 1,
         All,
@@ -108,13 +108,13 @@
         Boss
     }
 
-    public enum SkillTargetFlag
+    public enum ESkillTargetFlag
     {
         MagicImmune = 1,
         Invincible,
     }
 
-    public enum SkillTargetRangeType
+    public enum ESkillTargetRangeType
     {
         None,
         Circle,
@@ -122,7 +122,7 @@
         Sector,
     }
 
-    public enum SkillTargetCenter
+    public enum ESkillTargetCenter
     {
         Caster = 1,
         Target,
@@ -132,7 +132,7 @@
         ProjectileHitPoint,
     }
 
-    public enum BuffActionType
+    public enum EBuffActionType
     {
         /*
          30-循环执行定时器
@@ -156,14 +156,14 @@
         OwnerKillOther = 38,
     }
 
-    public enum BuffAttributes
+    public enum EBuffAttributes
     {
         Normal=1,//正常
         CanAdd=2,//可叠加
         IgnoreInvincible=3,//忽视无敌
     }
 
-    public enum ActorSkillState
+    public enum EActorSkillState
     {
         None=0,
         PhysicalImmune, //物理免疫
@@ -177,4 +177,13 @@
         DisablePassive, //禁用被动
         Taunt, //嘲讽
     }
+
+    public enum ESkillProp
+    {
+        None=0,
+        Speed,
+        Attack,
+        Armor,
+    }
+    
 }

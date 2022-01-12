@@ -7,7 +7,7 @@ using UnityEngine;
 public class TimerService : BaseService
 {
     public const float INFINITY = -9999;
-    private bool openLog = true;
+    private bool openLog = false;
 
     public class Timer
     {

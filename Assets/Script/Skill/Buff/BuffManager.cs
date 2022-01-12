@@ -43,7 +43,7 @@ namespace BluePro.Skill
             else
             {
                 var data = SkillUtil.GetSkillBuffData(buffId);
-                bool isOverLay = data.Attributes.Contains((int)BuffAttributes.CanAdd);
+                bool isOverLay = data.Attributes.Contains((int)EBuffAttributes.CanAdd);
                 buff = isOverLay ? new OverlayBuff() : new Buff();
                 buff.Create(skill, mContext.GetSelfActor(), buffId);
                 buffMap.Add(buffId, buff);
@@ -68,7 +68,7 @@ namespace BluePro.Skill
                 }
             }
 
-            OnBuffEventDispatch(BuffActionType.AddBuff);
+            OnBuffEventDispatch(EBuffActionType.AddBuff);
             return true;
         }
 
@@ -119,7 +119,7 @@ namespace BluePro.Skill
         private void RemoveBuff(IBuff buff)
         {
             int buffId = buff.GetBuffId();
-            OnBuffEventDispatch(BuffActionType.RemoveBuff);
+            OnBuffEventDispatch(EBuffActionType.RemoveBuff);
             buff.Release();
             buffMap.Remove(buffId);
         }
@@ -148,9 +148,9 @@ namespace BluePro.Skill
             if (buffData == null || buff == null)
                 return;
             AddActorState(buff, buffData);
-            buff.GetTarget().ModifySpeed(int.Parse(buffData.PropertyMoveSpeed));
-            buff.GetTarget().ModifyAttack(int.Parse(buffData.PropertyBaseAttack));
-            buff.GetTarget().ModifyArmor(int.Parse(buffData.PropertyArmor));
+            buff.GetTarget().ModifyProp(ESkillProp.Speed,int.Parse(buffData.PropertyMoveSpeed));
+            buff.GetTarget().ModifyProp(ESkillProp.Attack,int.Parse(buffData.PropertyBaseAttack));
+            buff.GetTarget().ModifyProp(ESkillProp.Armor,int.Parse(buffData.PropertyArmor));
         }
 
         /// <summary>
@@ -164,14 +164,14 @@ namespace BluePro.Skill
                 return;
 
             RemoveActorState(buff, buffData);
-            buff.GetTarget().ModifySpeed(-int.Parse(buffData.PropertyMoveSpeed));
-            buff.GetTarget().ModifyAttack(-int.Parse(buffData.PropertyBaseAttack));
-            buff.GetTarget().ModifyArmor(-int.Parse(buffData.PropertyArmor));
+            buff.GetTarget().ModifyProp(ESkillProp.Speed,-int.Parse(buffData.PropertyMoveSpeed));
+            buff.GetTarget().ModifyProp(ESkillProp.Attack,-int.Parse(buffData.PropertyBaseAttack));
+            buff.GetTarget().ModifyProp(ESkillProp.Armor,-int.Parse(buffData.PropertyArmor));
         }
 
         private void AddActorState(IBuff buff, SkillBuffData buffData)
         {
-            if (buffData.State != (int)ActorSkillState.None)
+            if (buffData.State != (int)EActorSkillState.None)
             {
                 var stateData = SkillUtil.GetSkillStateData(buffData.State);
                 int key = stateData.StateType;
@@ -183,14 +183,14 @@ namespace BluePro.Skill
                 else
                 {
                     stateMap.Add(key, 1);
-                    buff.GetTarget()?.AddState((ActorSkillState)key);
+                    buff.GetTarget()?.AddState((EActorSkillState)key);
                 }
             }
         }
 
         private void RemoveActorState(IBuff buff, SkillBuffData buffData)
         {
-            if (buffData.State != (int)ActorSkillState.None)
+            if (buffData.State != (int)EActorSkillState.None)
             {
                 var stateData = SkillUtil.GetSkillStateData(buffData.State);
                 int key = stateData.StateType;
@@ -201,7 +201,7 @@ namespace BluePro.Skill
                     if (newValue <= 0)
                     {
                         stateMap.Remove(key);
-                        buff.GetTarget()?.RemoveState((ActorSkillState)key);
+                        buff.GetTarget()?.RemoveState((EActorSkillState)key);
                     }
                     else
                         stateMap[key] = newValue;
@@ -270,7 +270,7 @@ namespace BluePro.Skill
         /// </summary>
         private bool TryAddLoopTimer(int buffId)
         {
-            if (!IsBuffActionType(buffId, BuffActionType.LoopTimer, out int actionId)) return false;
+            if (!IsBuffActionType(buffId, EBuffActionType.LoopTimer, out int actionId)) return false;
             SkillBuffData data = SkillUtil.GetSkillBuffData(buffId);
             if (data == null) return false;
             SkillUtil.LogWarning($"[BUFFMANAGER] LoopTimer is Start [BUffId]->[{buffId}] ActionID->[{actionId}])");
@@ -315,7 +315,7 @@ namespace BluePro.Skill
             if (!isEnd) //Tick 定时间间隔回调
             {
                 if (buffMap.ContainsKey(id))
-                    Trigger(buffMap[id], BuffActionType.LoopTimer, triggerId);
+                    Trigger(buffMap[id], EBuffActionType.LoopTimer, triggerId);
             }
 
             if (isEnd) //定时器已经结束
@@ -364,7 +364,7 @@ namespace BluePro.Skill
 
         #endregion
 
-        public void OnBuffEventDispatch(BuffActionType type)
+        public void OnBuffEventDispatch(EBuffActionType type)
         {
             var buffList = buffMap.AsList();
             for (int i = 0; i < buffList.Count; i++)
@@ -381,7 +381,7 @@ namespace BluePro.Skill
             }
         }
 
-        private bool IsBuffActionType(IBuff buff, BuffActionType type, out int actionId)
+        private bool IsBuffActionType(IBuff buff, EBuffActionType type, out int actionId)
         {
             actionId = 0;
             if (buff == null)
@@ -390,7 +390,7 @@ namespace BluePro.Skill
             return IsBuffActionType(buffId, type, out actionId);
         }
 
-        private bool IsBuffActionType(int buffId, BuffActionType type, out int actionId)
+        private bool IsBuffActionType(int buffId, EBuffActionType type, out int actionId)
         {
             actionId = 0;
             var data = SkillUtil.GetSkillBuffData(buffId);
@@ -399,7 +399,7 @@ namespace BluePro.Skill
 
             foreach (var t in data.Action)
             {
-                BuffActionType triggerType = (BuffActionType)t.Key;
+                EBuffActionType triggerType = (EBuffActionType)t.Key;
                 if (type != triggerType) continue;
                 actionId = t.Value;
                 return true;
@@ -408,7 +408,7 @@ namespace BluePro.Skill
             return false;
         }
 
-        private void Trigger(IBuff buff, BuffActionType type, int actionId)
+        private void Trigger(IBuff buff, EBuffActionType type, int actionId)
         {
             if (buff.GetIdentifyId() == SkillDefine.NONE)
             {

@@ -89,8 +89,8 @@ public class SkillProjectile : MonoBehaviour
         this.mActor = actor;
         this.mData = data;
         this.startTime = Time.unscaledTime;
-        var type = (SkillActionType) data.ActionType;
-        this.mIsFollowProjectile = type == SkillActionType.FollowProjectile;
+        var type = (ESkillActionType) data.ActionType;
+        this.mIsFollowProjectile = type == ESkillActionType.FollowProjectile;
         this.lastDir = Vector3.zero;
         this.mSpeed = speed;
         this.casterPosition = mSkill.GetContext().GetSelfActor().GetTransform().position;

@@ -12,29 +12,29 @@ namespace BluePro.Skill
             base.InitSingleton();
             map = new Dictionary<int, ISkillAction>
             {
-                { (int)SkillActionType.AddBuff, new SkillActionAddBuff() },
-                { (int)SkillActionType.RemoveBuff, new SkillActionRemoveBuff() },
-                { (int)SkillActionType.Damage, new SkillActionDamage() },
-                { (int)SkillActionType.Heal, new SkillActionHeal() },
-                { (int)SkillActionType.Dizzy, new SkillActionDizzy() },
-                { (int)SkillActionType.LineProjectile, new SkillActionLineProjectile() },
-                { (int)SkillActionType.FollowProjectile, new SkillActionFollowProjectile() },
-                { (int)SkillActionType.Blink, new SkillActionBlink() },
-                { (int)SkillActionType.Summon, new SkillActionSummon() },
-                { (int)SkillActionType.Knockback, new SkillActionKnockback() },
-                { (int)SkillActionType.RunScript, new SkillActionRunScript() },
-                { (int)SkillActionType.ProbabilityAction, new SkillActionProbabilityAction() },
-                { (int)SkillActionType.DelayAction, new SkillActionDelayAction() },
-                { (int)SkillActionType.BounceAction, new SkillActionBounceAction() },
-                { (int)SkillActionType.Effect, new SkillActionEffect() },
-                { (int)SkillActionType.Audio, new SkillActionAudio() },
-                { (int)SkillActionType.Action, new SkillActionAnimation() },
+                { (int)ESkillActionType.AddBuff, new SkillActionAddBuff() },
+                { (int)ESkillActionType.RemoveBuff, new SkillActionRemoveBuff() },
+                { (int)ESkillActionType.Damage, new SkillActionDamage() },
+                { (int)ESkillActionType.Heal, new SkillActionHeal() },
+                { (int)ESkillActionType.Dizzy, new SkillActionDizzy() },
+                { (int)ESkillActionType.LineProjectile, new SkillActionLineProjectile() },
+                { (int)ESkillActionType.FollowProjectile, new SkillActionFollowProjectile() },
+                { (int)ESkillActionType.Blink, new SkillActionBlink() },
+                { (int)ESkillActionType.Summon, new SkillActionSummon() },
+                { (int)ESkillActionType.Knockback, new SkillActionKnockback() },
+                { (int)ESkillActionType.RunScript, new SkillActionRunScript() },
+                { (int)ESkillActionType.ProbabilityAction, new SkillActionProbabilityAction() },
+                { (int)ESkillActionType.DelayAction, new SkillActionDelayAction() },
+                { (int)ESkillActionType.BounceAction, new SkillActionBounceAction() },
+                { (int)ESkillActionType.Effect, new SkillActionEffect() },
+                { (int)ESkillActionType.Audio, new SkillActionAudio() },
+                { (int)ESkillActionType.Action, new SkillActionAnimation() },
             };
         }
 
         private List<int> cacheActions;
 
-        private bool HasAction(SkillData data, SkillActionTriggerTime triggerTime, ref List<int> actions)
+        private bool HasAction(SkillData data, ESkillActionTriggerTime triggerTime, ref List<int> actions)
         {
             actions ??= new List<int>();
             actions.Clear();
@@ -42,7 +42,7 @@ namespace BluePro.Skill
             bool bFind = false;
             foreach (var ac in data.Action)
             {
-                var acType = (SkillActionTriggerTime)ac.Key;
+                var acType = (ESkillActionTriggerTime)ac.Key;
                 if (acType != triggerTime) continue;
                 actions.Add(ac.Value);
                 bFind = true;
@@ -51,7 +51,7 @@ namespace BluePro.Skill
             return bFind;
         }
 
-        public void TryTriggerAction(ISkill skill, SkillData data, SkillActionTriggerTime triggerTime, int identifyId,
+        public void TryTriggerAction(ISkill skill, SkillData data, ESkillActionTriggerTime triggerTime, int identifyId,
             Action confirmCb = null)
         {
             SkillUtil.Log($"  TriggerTime-> {triggerTime}");

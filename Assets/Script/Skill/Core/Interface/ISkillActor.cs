@@ -21,23 +21,18 @@
         bool AddBuffEffect(string effectName, string dummyPoint);
 
         bool RemoveBuffEffect(string effectName, string dummyPoint);
+        void ModifyProp(ESkillProp prop,int value);
 
-        void ModifySpeed(int value);
+        void AddState(EActorSkillState state);
 
-        void ModifyAttack(int value);
-
-        void ModifyArmor(int value);
-
-        void AddState(ActorSkillState state);
-
-        void RemoveState(ActorSkillState state);
+        void RemoveState(EActorSkillState state);
 
         //--------------------------------Target------------------------------------------
 
-        SkillTargetTeamType GetTargetTeamType();
+        ESkillTargetTeamType GetTargetTeamType();
 
-        SkillTargetType GetTargetType();
+        ESkillTargetType GetTargetType();
 
-        SkillTargetFlag GetTargetFlag();
+        ESkillTargetFlag GetTargetFlag();
     }
 }

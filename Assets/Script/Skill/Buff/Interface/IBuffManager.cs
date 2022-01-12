@@ -8,6 +8,6 @@
         bool TryRemoveBuff(int buffId, bool forceClean);
 
         void ClearAllBuff();
-        void OnBuffEventDispatch(BuffActionType type);
+        void OnBuffEventDispatch(EBuffActionType type);
     }
 }

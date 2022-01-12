@@ -21,8 +21,8 @@ public class DemoActor : MonoBehaviour, ISkillActor
     [SerializeField] private int armor = 10;
     [SerializeField] private bool isDead;
 
-    [SerializeField] public SkillTargetType targetType = SkillTargetType.Hero;
-    [SerializeField] public SkillTargetTeamType targetTeamType = SkillTargetTeamType.Enemy;
+    [SerializeField] public ESkillTargetType targetType = ESkillTargetType.Hero;
+    [SerializeField] public ESkillTargetTeamType targetTeamType = ESkillTargetTeamType.Enemy;
 
     private int maxHp;
     void Start()
@@ -118,7 +118,27 @@ public class DemoActor : MonoBehaviour, ISkillActor
         return true;
     }
 
-    public void ModifySpeed(int value)
+    void ISkillActor.ModifyProp(ESkillProp prop, int value)
+    {
+        switch (prop)
+        {
+            case ESkillProp.None:
+                break;
+            case ESkillProp.Speed:
+                ModifySpeed(value);
+                break;
+            case ESkillProp.Attack:
+                ModifyAttack(value);
+                break;
+            case ESkillProp.Armor:
+                ModifyArmor(value);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(prop), prop, null);
+        }
+    }
+
+    private void ModifySpeed(int value)
     {
         if (value == 0) return;
         var old = speed;
@@ -127,7 +147,7 @@ public class DemoActor : MonoBehaviour, ISkillActor
         SkillUtil.Log($" {GetBaseDes()}   Speed -> {value} ");
     }
 
-    public void ModifyAttack(int value)
+    private void ModifyAttack(int value)
     {
         if (value == 0) return;
         var old = attack;
@@ -136,7 +156,7 @@ public class DemoActor : MonoBehaviour, ISkillActor
         SkillUtil.Log($" {GetBaseDes()}   Attack -> {value} ");
     }
 
-    public void ModifyArmor(int value)
+    private void ModifyArmor(int value)
     {
         if (value == 0) return;
         var old = armor;
@@ -145,13 +165,13 @@ public class DemoActor : MonoBehaviour, ISkillActor
         SkillUtil.Log($" {GetBaseDes()}   Armor -> {value} ");
     }
 
-    public void AddState(ActorSkillState state)
+    public void AddState(EActorSkillState state)
     {
         EnqeueLog($"Add State -> {state}  ");
         SkillUtil.LogWarning(GetBaseDes() + "  状态添加 ->" + state);
     }
 
-    public void RemoveState(ActorSkillState state)
+    public void RemoveState(EActorSkillState state)
     {
         EnqeueLog($"remove State->{state} ");
         SkillUtil.LogWarning(GetBaseDes() + "  状态移除 ->" + state);
@@ -160,7 +180,7 @@ public class DemoActor : MonoBehaviour, ISkillActor
     void Internal_Damage(ISkill skill, int value)
     {
         var data = skill.GetData();
-        if (data != null && (SkillType)data.SkillType == SkillType.NormalAttack)
+        if (data != null && (ESkillType)data.SkillType == ESkillType.NormalAttack)
         {
             GetSkillContext().OtherNormalAttackActor();
             skill.GetContext().ActorNormalAttackOther();
@@ -204,19 +224,19 @@ public class DemoActor : MonoBehaviour, ISkillActor
         return $"[ContextId {contextId} Name {gameObject.name}  ] ";
     }
 
-    public SkillTargetTeamType GetTargetTeamType()
+    public ESkillTargetTeamType GetTargetTeamType()
     {
         return targetTeamType;
     }
 
-    public SkillTargetType GetTargetType()
+    public ESkillTargetType GetTargetType()
     {
         return targetType;
     }
 
-    public SkillTargetFlag GetTargetFlag()
+    public ESkillTargetFlag GetTargetFlag()
     {
-        return SkillTargetFlag.MagicImmune;
+        return ESkillTargetFlag.MagicImmune;
     }
     
     #region Debug
@@ -232,7 +252,7 @@ public class DemoActor : MonoBehaviour, ISkillActor
         var rd = GetComponent<Renderer>();                                     
         if (rd == null)
             return;
-        var color = targetTeamType == SkillTargetTeamType.Enemy ? Color.red : Color.green;
+        var color = targetTeamType == ESkillTargetTeamType.Enemy ? Color.red : Color.green;
         rd.material.color = color;
 
         StartCoroutine(UpdateLog());

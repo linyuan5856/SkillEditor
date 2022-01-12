@@ -38,7 +38,7 @@ public class DemoEntry : BaseMain
     DemoActor GetRandomTarget()
     {
         var target = targets[Random.Range(0, targets.Length)];
-        if (target != source && target.targetTeamType != SkillTargetTeamType.Friend) return target;
+        if (target != source && target.targetTeamType != ESkillTargetTeamType.Friend) return target;
         return GetRandomTarget();
     }
 }

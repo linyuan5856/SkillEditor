@@ -81,23 +81,23 @@ namespace BluePro.Skill
         private void NormalGetTargets(ISkillContext context,
             SkillActionData data, CommonParam param)
         {
-            var rangeType = (SkillTargetRangeType) data.Radius.Key;
-            var centerType = (SkillTargetCenter) data.Center;
+            var rangeType = (ESkillTargetRangeType) data.Radius.Key;
+            var centerType = (ESkillTargetCenter) data.Center;
 
             //线性投射会把Hit的目标动态AddTarget进来
             //跟踪投射 策划会配置Center为2
-            if (centerType != SkillTargetCenter.ProjectileHitPoint)
+            if (centerType != ESkillTargetCenter.ProjectileHitPoint)
                 param.ResetTarget();
 
-            if (rangeType == SkillTargetRangeType.None) //不需要检测距离
+            if (rangeType == ESkillTargetRangeType.None) //不需要检测距离
             {
                 switch (centerType)
                 {
-                    case SkillTargetCenter.Caster:
+                    case ESkillTargetCenter.Caster:
                         //添加技能施放者
                         param.AddTarget(context.GetSelfActor());
                         break;
-                    case SkillTargetCenter.Target:
+                    case ESkillTargetCenter.Target:
                         //添加被施法目标
                         param.AddTarget(param.ActorClicked);
                         break;
@@ -115,9 +115,9 @@ namespace BluePro.Skill
                 switch (rangeType)
                 {
                     //todo
-                    case SkillTargetRangeType.Circle:
-                    case SkillTargetRangeType.Rect:
-                    case SkillTargetRangeType.Sector:
+                    case ESkillTargetRangeType.Circle:
+                    case ESkillTargetRangeType.Rect:
+                    case ESkillTargetRangeType.Sector:
                         //todo fake 暂时都按照 Radius处理
                         var targetArrary = GameObject.FindObjectsOfType<DemoActor>();
                         for (int i = 0; i < targetArrary.Length; i++)
@@ -138,27 +138,27 @@ namespace BluePro.Skill
         private Vector3 GetCenterTarget(ISkillContext context,
             SkillActionData data, CommonParam param)
         {
-            var centerType = (SkillTargetCenter) data.Center;
+            var centerType = (ESkillTargetCenter) data.Center;
             Vector3 pos = Vector3.zero;
 
             switch (centerType)
             {
-                case SkillTargetCenter.Caster:
+                case ESkillTargetCenter.Caster:
                     pos = context.GetSelfActor().GetTransform().position;
                     break;
-                case SkillTargetCenter.Target:
+                case ESkillTargetCenter.Target:
                     pos = param.ActorClicked?.GetTransform().position ?? pos;
                     break;
-                case SkillTargetCenter.Point:
+                case ESkillTargetCenter.Point:
                     pos = param.Postion;
                     break;
-                case SkillTargetCenter.Attacker:
+                case ESkillTargetCenter.Attacker:
                     //todo
                     break;
-                case SkillTargetCenter.Projectile:
+                case ESkillTargetCenter.Projectile:
                     //todo
                     break;
-                case SkillTargetCenter.ProjectileHitPoint:
+                case ESkillTargetCenter.ProjectileHitPoint:
                     //todo
                     break;
             }
@@ -174,26 +174,26 @@ namespace BluePro.Skill
             removelist.Clear();
 
             var targets = param.Targets;
-            var needTeamType = (SkillTargetTeamType) data.Team;
+            var needTeamType = (ESkillTargetTeamType) data.Team;
 
             for (int i = 0; i < targets.Count; i++)
             {
                 var target = targets[i];
 
-                if (needTeamType != SkillTargetTeamType.ALl) //阵营
+                if (needTeamType != ESkillTargetTeamType.ALl) //阵营
                 {
                     var targetTeamType = target.GetTargetTeamType();
                     if (target == context.GetSelfActor()) //todo 待数据层成型 删除
-                        targetTeamType = SkillTargetTeamType.Friend;
+                        targetTeamType = ESkillTargetTeamType.Friend;
                     if (targetTeamType != needTeamType)
                         removelist.Add(target);
                 }
 
-                if (!data.Type.Contains((int) SkillTargetType.All)) //类型
+                if (!data.Type.Contains((int) ESkillTargetType.All)) //类型
                 {
                     for (int j = 0; j < data.Type.Count; j++)
                     {
-                        var needType = (SkillTargetType) data.Type[j];
+                        var needType = (ESkillTargetType) data.Type[j];
                         if (needType == target.GetTargetType())
                             break;
                         if (j == data.Type.Count - 1)

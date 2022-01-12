@@ -61,32 +61,32 @@
 
         public void ActorNormalAttackOther()
         {
-            GetBuffManager()?.OnBuffEventDispatch(BuffActionType.OwnerAttackOther);
+            GetBuffManager()?.OnBuffEventDispatch(EBuffActionType.OwnerAttackOther);
         }
 
         public void OtherNormalAttackActor()
         {
-            GetBuffManager()?.OnBuffEventDispatch(BuffActionType.OwnerBeAttacked);
+            GetBuffManager()?.OnBuffEventDispatch(EBuffActionType.OwnerBeAttacked);
         }
 
         public void ActorHurtOther()
         {
-            GetBuffManager()?.OnBuffEventDispatch(BuffActionType.OwnerHurtOther);
+            GetBuffManager()?.OnBuffEventDispatch(EBuffActionType.OwnerHurtOther);
         }
 
         public void OtherHurtActor()
         {
-            GetBuffManager()?.OnBuffEventDispatch(BuffActionType.OwnerBeHurt);
+            GetBuffManager()?.OnBuffEventDispatch(EBuffActionType.OwnerBeHurt);
         }
 
         public void ActorKilledOther()
         {
-            GetBuffManager()?.OnBuffEventDispatch(BuffActionType.OwnerKillOther);
+            GetBuffManager()?.OnBuffEventDispatch(EBuffActionType.OwnerKillOther);
         }
 
         public void ActorBeKilled()
         {
-            GetBuffManager()?.OnBuffEventDispatch(BuffActionType.OwnerBeKilled);
+            GetBuffManager()?.OnBuffEventDispatch(EBuffActionType.OwnerBeKilled);
         }
     }
 }
