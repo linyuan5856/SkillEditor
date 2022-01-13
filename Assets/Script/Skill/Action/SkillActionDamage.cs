@@ -13,10 +13,7 @@
         {
             var targets = param.Targets;
             foreach (var actor in targets)
-            {
-                if (actor == null) continue;
-                actor.Damage(skill,damage);
-            }
+                actor?.ModifyProp(ESkillProp.Hp,skill,damage);
         }
     }
 }

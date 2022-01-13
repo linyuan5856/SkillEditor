@@ -181,6 +181,7 @@
     public enum ESkillProp
     {
         None=0,
+        Hp,
         Speed,
         Attack,
         Armor,

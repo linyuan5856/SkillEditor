@@ -15,25 +15,26 @@ public class DemoActor : MonoBehaviour, ISkillActor
     private Text txt_hp;
 
     [SerializeField] private int contextId = 1;
-    [SerializeField] private int hp = 10000;
-    [SerializeField] private int speed = 30;
-    [SerializeField] private int attack = 100;
-    [SerializeField] private int armor = 10;
     [SerializeField] private bool isDead;
-
     [SerializeField] public ESkillTargetType targetType = ESkillTargetType.Hero;
     [SerializeField] public ESkillTargetTeamType targetTeamType = ESkillTargetTeamType.Enemy;
 
-    private int maxHp;
+    private readonly Dictionary<ESkillProp, int> propDic = new()
+    {
+        { ESkillProp.Attack, 100 },
+        { ESkillProp.Hp, 10000 },
+        { ESkillProp.Speed, 30 },
+        { ESkillProp.Armor, 10 }
+    };
+
     void Start()
     {
-        maxHp = hp;
         img_hp = transform.Find("Canvas/img_hp").GetComponent<Image>();
         txt_hp = img_hp.GetComponentInChildren<Text>();
         UpdateHp(0);
         img_hp.type = Image.Type.Filled;
         img_hp.fillMethod = Image.FillMethod.Horizontal;
-        
+
         _anim = GetComponent<Animator>();
         if (!_anim)
             _anim = gameObject.AddComponent<Animator>();
@@ -42,9 +43,8 @@ public class DemoActor : MonoBehaviour, ISkillActor
         skillComponent = new SkillComponent(this);
         skillComponent.Init();
 
-         InitDebug();
+        InitDebug();
     }
-
 
     public void CastSkill(int index, CommonParam param)
     {
@@ -74,95 +74,81 @@ public class DemoActor : MonoBehaviour, ISkillActor
         return false;
     }
 
-    public bool IsDead()
+    bool ISkillActor.IsDead()
     {
         return isDead;
     }
 
-    public bool CheckManaValid(int skillCost)
+    bool ISkillActor.CheckManaValid(int skillCost)
     {
         return true;
     }
 
-    public int GetIdentifyId()
+
+    int ISkillActor.GetIdentifyId()
     {
         return contextId;
     }
 
-    public Transform GetTransform()
+    Transform ISkillActor.GetTransform()
     {
         return transform;
     }
 
-    public bool Damage(ISkill skill, int value)
+    void ISkillActor.ModifyProp(ESkillProp prop, ISkill skill, int change)
     {
-        SkillUtil.Log($" {GetBaseDes()}   damage -> {value}");
-        Internal_Damage(skill, value);
+        if (prop != ESkillProp.Hp) return;
+
+        if (change < 0)
+        {
+            var data = skill.GetData();
+            if (data != null && (ESkillType)data.SkillType == ESkillType.NormalAttack)
+            {
+                GetSkillContext().OtherNormalAttackActor();
+                skill.GetContext().ActorNormalAttackOther();
+            }
+
+            GetSkillContext().OtherHurtActor();
+            skill.GetContext().ActorHurtOther();
+        }
+
+        var newValue = UpdateHp(change);
+        if (newValue <= 0) PlayerDead(skill);
+    }
+
+
+    bool ISkillActor.AddBuffEffect(string effectName, string dummyPoint)
+    {
         return true;
     }
 
-    public bool Heal(ISkill skill, int value)
-    {
-        SkillUtil.Log($" {GetBaseDes()}   Heal -> {value} ");
-        Internal_Heal(skill, value);
-        return true;
-    }
-
-    public bool AddBuffEffect(string effectName, string dummyPoint)
-    {
-        return true;
-    }
-
-    public bool RemoveBuffEffect(string effectName, string dummyPoint)
+    bool ISkillActor.RemoveBuffEffect(string effectName, string dummyPoint)
     {
         return true;
     }
 
     void ISkillActor.ModifyProp(ESkillProp prop, int value)
     {
-        switch (prop)
-        {
-            case ESkillProp.None:
-                break;
-            case ESkillProp.Speed:
-                ModifySpeed(value);
-                break;
-            case ESkillProp.Attack:
-                ModifyAttack(value);
-                break;
-            case ESkillProp.Armor:
-                ModifyArmor(value);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(prop), prop, null);
-        }
+        ModifyProp(prop, value);
     }
 
-    private void ModifySpeed(int value)
+    private int ModifyProp(ESkillProp prop, int change)
     {
-        if (value == 0) return;
-        var old = speed;
-        speed += value;
-        EnqeueLog($"Speed From {old}->{speed} <color=\"red\">[Change]->{Math.Abs(value)}  ");
-        SkillUtil.Log($" {GetBaseDes()}   Speed -> {value} ");
+        if (change == 0 || !propDic.TryGetValue(prop, out var cur)) return -1;
+        var newValue = cur + change;
+        if (newValue < 0) newValue = 0;
+        propDic[prop] = newValue;
+        EnqeueLog($"{prop}:   {cur}->{newValue}");
+        SkillUtil.Log($" {GetBaseDes()}   Speed -> {change} ");
+        return newValue;
     }
 
-    private void ModifyAttack(int value)
+    private int UpdateHp(int change)
     {
-        if (value == 0) return;
-        var old = attack;
-        attack += value;
-        EnqeueLog($"Speed From {old}->{attack} [Change]->{Math.Abs(value)}  ");
-        SkillUtil.Log($" {GetBaseDes()}   Attack -> {value} ");
-    }
-
-    private void ModifyArmor(int value)
-    {
-        if (value == 0) return;
-        var old = armor;
-        armor += value;
-        EnqeueLog($"Speed From {old}->{armor} [Change]->{Math.Abs(value)}  ");
-        SkillUtil.Log($" {GetBaseDes()}   Armor -> {value} ");
+        int cur = ModifyProp(ESkillProp.Hp, change);
+        txt_hp.text = cur.ToString();
+        img_hp.fillAmount = (float)cur / 10000;
+        return cur;
     }
 
     public void AddState(EActorSkillState state)
@@ -177,38 +163,6 @@ public class DemoActor : MonoBehaviour, ISkillActor
         SkillUtil.LogWarning(GetBaseDes() + "  状态移除 ->" + state);
     }
 
-    void Internal_Damage(ISkill skill, int value)
-    {
-        var data = skill.GetData();
-        if (data != null && (ESkillType)data.SkillType == ESkillType.NormalAttack)
-        {
-            GetSkillContext().OtherNormalAttackActor();
-            skill.GetContext().ActorNormalAttackOther();
-        }
-
-        GetSkillContext().OtherHurtActor();
-        skill.GetContext().ActorHurtOther();
-
-        UpdateHp(-value);
-        if (hp <= 0)
-            PlayerDead(skill);
-    }
-
-    void Internal_Heal(ISkill skill, int value)
-    {
-        UpdateHp(value);
-    }
-
-    private void UpdateHp(int value)
-    {
-        hp += value;
-        if (hp <= 0)hp = 0;
-        txt_hp.text = hp.ToString();
-        img_hp.fillAmount = (float)hp / maxHp;
-        var color = value > 0 ? "<color=\"green\">" : "<color=\"red\">";
-        EnqeueLog($"{color}hp {value}");
-      
-    }
 
     void PlayerDead(ISkill skill)
     {
@@ -238,8 +192,9 @@ public class DemoActor : MonoBehaviour, ISkillActor
     {
         return ESkillTargetFlag.MagicImmune;
     }
-    
+
     #region Debug
+
     private TextMeshPro text;
     private Queue<string> logQueue;
 
@@ -248,8 +203,8 @@ public class DemoActor : MonoBehaviour, ISkillActor
         logQueue = new Queue<string>();
         text = GetComponentInChildren<TextMeshPro>();
         text.color = Color.black;
-        text.text=String.Empty;
-        var rd = GetComponent<Renderer>();                                     
+        text.text = String.Empty;
+        var rd = GetComponent<Renderer>();
         if (rd == null)
             return;
         var color = targetTeamType == ESkillTargetTeamType.Enemy ? Color.red : Color.green;
@@ -265,8 +220,8 @@ public class DemoActor : MonoBehaviour, ISkillActor
 
     IEnumerator UpdateLog()
     {
-        var waitAppear=new WaitForSecondsRealtime(0.15f);
-        var waitDisappear=new WaitForSecondsRealtime(0.5f);
+        var waitAppear = new WaitForSecondsRealtime(0.15f);
+        var waitDisappear = new WaitForSecondsRealtime(0.5f);
         while (true)
         {
             if (logQueue.Count > 0)

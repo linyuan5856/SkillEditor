@@ -15,11 +15,8 @@
         private void Heal(ISkill skill, CommonParam param, int heal)
         {
             var targets = param.Targets;
-            foreach (var t in targets)
-            {
-                if (t == null) continue;
-                t.Heal(skill, heal);
-            }
+            foreach (var actor in targets)
+                actor?.ModifyProp(ESkillProp.Hp,skill, heal);
         }
     }
 }

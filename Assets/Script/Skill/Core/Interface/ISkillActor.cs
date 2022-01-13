@@ -13,9 +13,7 @@
         bool CheckManaValid(int skillCost);
 
         //---------------------------------Action ---------------------------------
-        bool Damage(ISkill skill, int value);
-
-        bool Heal(ISkill skill, int value);
+        void ModifyProp(ESkillProp prop,ISkill skill,int value);
 
         //---------------------------------Buff ---------------------------------
         bool AddBuffEffect(string effectName, string dummyPoint);

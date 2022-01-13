@@ -119,17 +119,15 @@ namespace BluePro.Skill
                     case ESkillTargetRangeType.Rect:
                     case ESkillTargetRangeType.Sector:
                         //todo fake 暂时都按照 Radius处理
-                        var targetArrary = GameObject.FindObjectsOfType<DemoActor>();
-                        for (int i = 0; i < targetArrary.Length; i++)
+                        var actors = GameObject.FindObjectsOfType<DemoActor>();
+                        foreach (var demoActor in actors)
                         {
-                            var target = targetArrary[i];
-                            if (target.IsDead())
-                                continue;
-                            var distance = Vector3.Distance(target.GetTransform().position, center);
-                            if (distance <= range)
-                                param.AddTarget(target);
+                            var actor = (ISkillActor)demoActor;
+                            if (actor.IsDead()) continue;
+                            var distance = Vector3.Distance(actor.GetTransform().position, center);
+                            if (distance <= range) 
+                                param.AddTarget(actor);
                         }
-
                         break;
                 }
             }
