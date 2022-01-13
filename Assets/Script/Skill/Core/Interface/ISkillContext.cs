@@ -7,7 +7,7 @@
         ISkillActor GetSelfActor();
 
         int GetSkillContextId();
-
+        bool CanCastSkill(int skillId);
         bool CheckManaValid(int skillCost);
 
         bool AddBuff(ISkill skill, int buffId);

@@ -24,9 +24,7 @@ namespace BluePro.Skill
         private ISkillContext context;
         private int level = 1;
         private bool isInit;
-        private float leftCDTime;
-        private int cdTimerID;
-        private const float cdInterval = 0.1f;
+       
 
         public virtual void Init(SkillData skillData, ISkillContext skillContext)
         {
@@ -129,17 +127,7 @@ namespace BluePro.Skill
                 return;
             }
 
-            if (!CheckCDValid())
-            {
-                SkillUtil.Log($"Skill->{id} Is CD");
-                return;
-            }
-
-            if (!CheckCostValid())
-            {
-                SkillUtil.Log($"Skill->{id} Cost Not Enough");
-                return;
-            }
+            if (context.CanCastSkill(id)) return;
 
             identifyId++;
             AddSkillParam(identifyId, commonParam);
@@ -150,7 +138,7 @@ namespace BluePro.Skill
 
             void CastSkill(bool isEnd, object[] param)
             {
-                CommonParam actionParam = (CommonParam)param[0];
+                CommonParam actionParam = (CommonParam)param[0]; 
                 if (isEnd) OnCastSkillStart(actionParam.IdentifyId);
             }
 
@@ -262,7 +250,6 @@ namespace BluePro.Skill
         /// <param name="identifyId"></param>
         void OnCastSkillStart(int identifyId)
         {
-            BeginCdTick();
             SkillActionTrigger.Instance.TryTriggerAction(this, data, ESkillActionTriggerTime.StartCastSkill, identifyId);
         }
 
@@ -356,40 +343,6 @@ namespace BluePro.Skill
         {
             SkillActionTrigger.Instance.TryTriggerAction(this, data, ESkillActionTriggerTime.ProjectileDisappear,
                 identifyId);
-        }
-
-        void BeginCdTick()
-        {
-            //todo
-            // leftCDTime = SkillUtil.GetSkillCoolDown(GetSkillLevel(), data);
-            // cdTimerID = TimerManager.Instance.CreateTimer(UpdateCd, cdInterval, leftCDTime);
-        }
-
-        void UpdateCd(bool isEnd, object param)
-        {
-            leftCDTime -= cdInterval;
-            if (isEnd)
-            {
-                leftCDTime = 0;
-                SkillUtil.LogWarning($"{SkillUtil.GetSkillDebugDes(this)} 冷却完毕 ");
-            }
-        }
-
-        bool CheckCDValid()
-        {
-            var result = Math.Abs(leftCDTime) < 0.01;
-            if (!result)
-                SkillUtil.LogWarning($"{SkillUtil.GetSkillDebugDes(this)}  Need {leftCDTime} Seconds,SKill Can Caster");
-            return result;
-        }
-
-        bool CheckCostValid()
-        {
-            if (context == null || data == null)
-                return false;
-
-            int cost = SkillUtil.GetSkillCost(GetSkillLevel(), data);
-            return context.CheckManaValid(cost);
         }
     }
 }

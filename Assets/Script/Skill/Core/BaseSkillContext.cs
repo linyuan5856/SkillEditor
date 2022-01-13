@@ -1,4 +1,6 @@
-﻿namespace BluePro.Skill
+﻿using System;
+
+namespace BluePro.Skill
 {
     public class BaseSkillContext : ISkillContext
     {
@@ -38,6 +40,11 @@
         {
             return GetSelfActor().GetIdentifyId();
         }
+
+         bool ISkillContext.CanCastSkill(int skillId)
+         {
+             return CheckCostValid() && CheckCDValid();
+         }
 
         public virtual bool CheckManaValid(int skillCost)
         {
@@ -87,6 +94,38 @@
         public void ActorBeKilled()
         {
             GetBuffManager()?.OnBuffEventDispatch(EBuffActionType.OwnerBeKilled);
+        }
+
+        private float leftCDTime;
+        private int cdTimerID;
+        private const float cdInterval = 0.1f;
+        bool CheckCDValid()
+        {
+            var result = Math.Abs(leftCDTime) < 0.01;
+            if (!result)
+                SkillUtil.LogWarning($" Need {leftCDTime} Seconds,SKill Can Caster");
+            return result;
+        }
+
+        bool CheckCostValid()
+        {
+            //int cost = SkillUtil.GetSkillCost(GetSkillLevel(), data);
+            int cost = 0;//todo
+            return CheckManaValid(cost);
+        }
+        
+        void BeginCdTick()
+        {
+            //todo
+            // leftCDTime = SkillUtil.GetSkillCoolDown(GetSkillLevel(), data);
+            // cdTimerID = TimerManager.Instance.CreateTimer(UpdateCd, cdInterval, leftCDTime);
+        }
+
+        void UpdateCd(bool isEnd, object param)
+        {
+            leftCDTime -= cdInterval;
+            if (isEnd)
+                leftCDTime = 0;
         }
     }
 }
