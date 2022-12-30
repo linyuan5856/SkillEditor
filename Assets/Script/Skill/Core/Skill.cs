@@ -127,7 +127,7 @@ namespace BluePro.Skill
                 return;
             }
 
-            if (context.CanCastSkill(id)) return;
+            if (!context.CanCastSkill(id)) return;
 
             identifyId++;
             AddSkillParam(identifyId, commonParam);
